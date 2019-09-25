@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Store</title>
+  <link rel="stylesheet" href="products-style.css" type="text/css">
+  </head>
+  <body>
+    <h1>Used Phone Store</h1>
+    <aside>
+        <div>
+            <input id="speedSlider" type="range" min=".1" max="5" step=".1" onchange="
+        localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';
+        " style="direction: rtl;" />
+        </div>
+    </aside>
+      <main><div> 
+          <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>HTC</h2>
+            <p>$40.00</p>
+            <img id="HTC_img" src="http://dport96.github.io/ITM352/morea/090.flow-control-II/HTC.jpg">
+          </section>
+          <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+            <h2>Apple</h2>
+            <p>$75.00</p>
+            <img src="http://dport96.github.io/ITM352/morea/090.flow-control-II/iphone-3gs.jpg">
+          </section>
+      <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+          <h2>Nokia</h2>
+           <p>&dollar; 35.00</p>
+          <img src="http://dport96.github.io/ITM352/morea/090.flow-control-II/Nokia.jpg" alt=Nokia height="200px" width="200px">
+      </section>
+      <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';"> 
+          <h2>Samsung</h2>
+           <p>&dollar; 45.00</p>
+           <img src="http://dport96.github.io/ITM352/morea/090.flow-control-II/Samsung.jpg" alt=samsung height="200px" width="200px">
+      </section>
+      <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';"> 
+          <h2>Blackberry</h2>
+           <p>&dollar; 10.00</p>
+           <img src="http://dport96.github.io/ITM352/morea/090.flow-control-II/Blackberry.jpg" alt=blackberry height="200px" width="200px">
+      </section>
+    </div></main>
+  <h1>Your One Stop Shop</h1>
+
+
+  </body>
+</html>
