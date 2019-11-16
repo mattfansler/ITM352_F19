@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lab 12 Exercise 4</title>
+    <script>
+        srce="product_data.js">
+        let params = (new URL(document.location)).searchParams;
+        POST = {};
+        params.forEach(function (value, key) { POST[key] = value });
+
+        if (typeof POST['quantity_textbox'] != 'undefined') 
+        {
+            userIn = POST ['quantity_textbox']; 
+                if (isNonNegInt(userIn))
+                {
+                    document.write(`Thank you for purchasing ${userIn} things`);
+                     window.stop (); 
+                }
+        }
+
+        function isNonNegInt(q, sendArrayBack = false)
+{
+    errors = []; // assume no errors at first
+    if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+
+    if (sendArrayBack)
+    {
+        return (errors);
+    
+    }   else
+    {
+        return(errors.length == 0);
+    }
+    
+}
+        function checkquantity()
+        {
+            errs = isNonNegInt(quantity_form.quantity_textbox.value, true) ;
+            if (errs.length > 0)
+            {
+                qty_textbox_message.innerHTML = errs.join (",");
+            } else {
+                qty_textbox_message.innerHTML = quantity_form.quantity_textbox.value;
+
+            }
+           
+            
+        }
+
+       /* function displayPurchase ()
+        {
+            // Function to display product quantity if it is a non-negative integer
+            textboxValue = quantity_form.quantity_textbox.value;
+            if (isNonNegInt(textboxValue)== true)
+                // could say:   if (isNonNegInt(textboxValue))
+            {
+                document.write(`Thank you for purchasing ${textboxValue} things`); 
+            }
+               
+        }
+        */
+    </script>
+</head>
+<body>
+    <form name = "quantity_form" action="http://localhost:8080/process_form" method = "POST">
+    <label for = "quantity_textbox">Enter quantity desired:</label>
+    <input type = "text" name= "quantity_textbox" onkeyup="checkquantity();">
+    <br>
+    <span id='qty_textbox_message'>Enter a quantity</span> 
+    <br>
+    <input type = "submit" value = "Purchase">
+    </form>
+</body>
+</html>

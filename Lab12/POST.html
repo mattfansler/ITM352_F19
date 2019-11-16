@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Lab 12 Ex1</title>
+        <script>
+       function isNonNegInt(q, sendArrayBack = false)
+{
+    errors = []; // assume no errors at first
+    if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+
+    if (sendArrayBack)
+    {
+            return(errors);
+    } else
+    {
+            return(errors.length == 0);
+    }
+}    
+         
+       function checkQuantity()
+        {
+            errs = isNonNegInt (quantity_form.quantity_textbox.value, true);
+            
+                   quantity_textbox_message.innerHTML = errs.join(", ");
+        } 
+        
+        let params = (new URL(document.location)).searchParams;
+        GET = {};
+        params.forEach(function (value, key) { GET[key] = value });
+        
+        if (typeof GET['quantity_textbox'] != 'undefined')
+        {
+            userIn = GET['quantity_textbox'];
+            if (isNonNegInt(userIn))
+            {
+
+                document.write(`Thank you for purchasing ${textboxValue} things`);
+                window.stop();
+            }
+        }
+        
+        /*
+        function displayPurchase()
+        {
+            textboxValue = quantity_textbox.value;
+            if (isNonNegInt(textboxValue) == true)
+            {
+                document.write(`Thank you for purchasing ${textboxValue} things`);
+            }
+        }
+        */
+        </script>
+        
+    </head>
+    
+    <body>
+        <form name="quantity_form" action="javascript:displayPurchase();">
+        
+        <label for="quantity_textbox">Enter quantity desired:</label>
+        <input type="text" id="quantity_textbox" onkeyup="checkQuantity();">
+        <br>
+        <span id='quantity_textbox_message'>Enter a quantity</span> 
+        <br>
+        <input type= "Submit" value="Purchase">
+        </form>
+</body>
+</html>
