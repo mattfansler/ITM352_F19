@@ -1,26 +1,36 @@
-products = 
+var products = 
 [
   {  
-  "service":"Pickup",  
+    "service": "How Many Miles?",  
+    "price": 2,
+    "image": "road.jpeg",
+    "description": "How far are you going?"  
+  },
+  {  
+  "service": "Traditional",  
   "price": 10,
-  "image": "src=./images/taxicar.png"
+  "image": "taxicab.png",
+  "description": "A driver will pick you up"
   },
   {  
-  "service":"pickup and delivery",  
-  "price": 15  
+    "service": "Transport 5 Passenger Vehicle",  
+    "price": 20,
+    "image": "/car.png",
+    "description": "Don't leave your car at the bar!"  
   },
   {  
-    "service":"delivery",  
-    "price": 15  
-    },
+  "service": "Transport Moped/Motorcycle",  
+  "price": 10,
+  "image": "/motorcycle.png",
+  "description": "Don't mope! We can get your moped home for you!" 
+  },
   {  
-     "service":"random",  
-    "price": 5  
-    },
-    {  
-        "service":"random",  
-        "price": 7  
-        }
+    "service": "Transport Van",  
+    "price": 25,
+    "image": "/van.png",
+    "description": "Don't forget about the van!"  
+  }
+
 ];
 
 if(typeof module != 'undefined') {

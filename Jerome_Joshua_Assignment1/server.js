@@ -1,75 +1,51 @@
-var data = require('./public/product_data');
-var products = data.products;
-var fs = require('fs');
-var express = require('express');
-var app = express();
-var myParser = require("body-parser");
+const querystring = require('querystring');
+var express = require('express'); //Use express module
+var app = express(); // Create an object with express
+//var fs = require('fs'); //require a file system from node
+var myParser = require("body-parser"); //needed to make form data to be available in req.body
+var products = require('./public/product_data.js'); // location of products
 
-// Function to test if a string is a non-negative integer
-function isNonNegInt(q, returnErrors = false) {
-
-    errors = []; // assume no errors at first
-    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-    if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-    if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-    return returnErrors ? errors : (errors.length == 0);
-
-}
-
-// Initialize Express
 app.all('*', function (request, response, next) {
-    console.log(request.method + ' to ' + request.path);
+    console.log(request.method + ' to' + request.path);
     next();
 });
+app.use(myParser.urlencoded({ extended: true}));
 
-app.use(myParser.urlencoded({ extended: true }));
-
-// Set up the path and handler for POST requests
-app.post("/process_form", function (request, response, next) {
-    let POST = request.body;
-    console.log(POST);
-    // Check the quantity entered by the user
-    if (typeof POST['Submit_button'] != 'undefined') {
-        has_error = false;
-        has_quantity = false;
-        for (i = 0; i < products.length; i++) {
-            q = POST['quantity_textbox' + i];
-            if (q != "") {
-                has_quantity = ((q > 0) || has_quantity);
-
-                if (!isNonNegInt(q)) {
-                    has_error = true;
-
-                    break;
+app.get("./process_page", function (request, response) {
+    params = request.query;
+    console.log(params)
+    
+    if (typeof params[final_submission] != 'undefined') {
+        has_errors = false; //assume that quantity values are valid
+        total_qty = 0; //set total_qty to 0
+        for (i = 0; i <products.length; i++) {
+            if (typeof params[`quantity${i}`] != 'undefined' ) {
+                a_qty = params[`quantity${i}`];
+                total_qty += a_qty;
+                if (!isNonNegInt(a_qty)) {
+                    has_errors = true; //Are there errors?
                 }
             }
         }
-
-
-
-        if (!has_error && has_quantity) {  //create invoice string if q is larger than 0
-            Invoice_str = "";
-            for (i = 0; i < products.length; i++) {
-                q = POST['quantity_textbox' + i];
-                if (q > 0) {
-                    Invoice_str += `<h1>Thank you for purchasing ${q} ${products[i]['service']}. Your total is \$${q * products[i]['price']}!</h1>  `;
-                }
-            }
-            response.send(Invoice_str);
-                                           //ask user to select a service if not selected
-        } else if (has_error) {
-            response.send(`${q} is not a quantity!`);
-        } else if (!has_quantity) {
-            response.send("Please select a service");
-        }                                      
-    } else {
-        next();
-    }
-
+        qstr = querystring.stringify(request.query);
+        if (has_errors || total_qty == 0){
+            qstr = querystring.stringify(request.query);
+            response.redirect("product_page.html?" + qstr)
+        } else { //check quantity
+            response.redirect("invoice.html?" + qstr);
+        }
+    }  
 });
 
-// Look for files in the "public" folder and listen on port 8080
+//lab11 check to see if q is a non-negative integer
+function isNonNegInt(q, sendArrayBack = false) {  //Function from lab 11
+    errors = []; // assume no errors at first
+    if (q == '') q = 0; //if q is blank, set it to 0
+    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    else if (q < 0) errors.push('Negative value!'); // Check if q is non-negative
+    else if (parseInt(q) != q) errors.push('Not an integer!'); // Check that q is an integer
+    return sendArrayBack ? errors : (errors.length == 0);
+}
+
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
-
-
