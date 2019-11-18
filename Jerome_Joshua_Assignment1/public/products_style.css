@@ -1,6 +1,7 @@
 body {
   width: 880px;
   margin: 0 auto;
+  color: orchid;
   
 }
 
@@ -11,6 +12,7 @@ body {
   background-size: 100%;
   background-image: url(./images/Background.jpg);
   background-size:cover;
+  text-decoration-color: orchid;
 }
 
 h1,h2 {
@@ -30,4 +32,5 @@ table {
  border: 10px;
  border-color: black; 
 align-items: center;
+color: orchid;
 }
