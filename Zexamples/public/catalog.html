@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./products.js" type="text/javascript">
+        // load in products
+    </script>
+    <title>Catalog</title>
+    <link rel="stylesheet" href="style.css">
+
+
+    <script>
+        //borrowed code from Assignment 1 example, this checks to see if there is a negative number.
+        function isNonNegInt(q, return_errors = false) {
+            errors = []; // assuming no errors in the beginning
+            if (q == '') q = 0; // treat inputs as if they are 0
+            if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // is it a number value
+            else if (q < 0) errors.push('<font color="red">Negative value!</font>'); //  is it non-negative
+            else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // is it an integer?
+            return return_errors ? errors : (errors.length == 0);
+        }
+
+        function checkQuantityTextbox(theTextbox) {
+            errs = isNonNegInt(theTextbox.value, true); //checks for the quantity and will serve what is in json.
+            if (errs.length == 0) errs = ['Quantity:'];
+            if (theTextbox.value.trim() == '') errs = ['Quantity:'];
+            document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+        }
+        window.onload = function() {
+            let params = (new URL(document.location)).searchParams; // aquire query string with form data
+            // form was submitted, check q if valid, redirect to invoice if ok.
+            if (params.has('purchase_submit')) {
+                has_errors = false; // assume quant same at time
+                total_qty = 0; // need to check if it was selected so we will look if the total > 0
+                for (i = 0; i < products.length; i++) {
+                    if (params.has(`quantity${i}`)) {
+                        a_qty = params.get(`quantity${i}`);
+                        // make textboxes sticky in case of incorrect data
+                        product_selection_form[`quantity${i}`].value = a_qty;
+                        total_qty += a_qty;
+                        if (!isNonNegInt(a_qty)) {
+                            has_errors = true; // tells if invalid quantity
+                            checkQuantityTextbox(product_selection_form[`quantity${i}`]); // points out where error is
+                        }
+                    }
+                }
+                // respond to errors if ok
+                if (has_errors) {
+                    alert("Please enter only valid quantities!");
+                } else if (total_qty == 0) { //  general alert
+                    alert("Please select quantities!");
+                } else { // Perfect it works!
+                    window.location = `./invoice.html${document.location.search}`;
+                    window.stop;
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <a href="index.html">Home</a> -
+    <a href="catalog.html">Watch Catalog</a> -
+    <a href="about.html">About</a> -
+    <a href="policies.html">Policies</a>
+
+
+
+    <h1><em>Trending</em></h1>
+
+
+    <form action="purchase" method="GET" name="product_selection_form">
+        <!--theis specifies how request from server-->
+
+
+
+        <script>
+            // loop runs throught and generates product display
+            for (i = 0; i < products.length; i++) {
+                document.write(`
+        <div>
+           
+                <p>
+                    <center><b>${products[i].name}</b></center>
+                </p><br>
+                <center><img src="images/${products[i].image}" style="height:275px;"><br>
+                    <h2>\$${products[i].price}</h2>
+                </center>
+                <div>
+                        <label id="quantity${i}_label"}">Enter Quantity:</label>
+                                <input type="text" placeholder="0" name="quantity${i}" 
+                                onkeyup="checkQuantityTextbox(this);">         
+                        </div>
+                
+        </div>`);
+            } // use for finding values is JSON
+        </script>
+        <input type="submit" value="purchase" name="purchase_submit"></form>
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+ /* General */
+ 
+
+html {
+  
+  font-family: 'Helvetica Neue', sans-serif;
+  
+}
+
+body {
+  width: 800px;
+  margin: 0 auto;
+  background-image: url("https://media.giphy.com/media/xUA7aXlhmKHBNLH3jy/giphy.gif");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  width: 800px;
+  margin: 0 auto;
+}
+
+/* Typography */
+
+
+h1, h2 {
+  
+  font-family: 'Helvetica Neue', sans-serif;
+  margin: 0;
+  font-size: 30px;
+  color: green;
+  text-align: center;
+}
+
+/* Table Style */
+table {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 25px;
+  color: greenyellow;
+  border: 1px solid black;
+  background-image: url(https://images.unsplash.com/photo-1536147116438-62679a5e01f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80);
+}
+
+/* Images Styling */
+img {
+  display: block;
+  border: 5px solid rgb(50, 196, 140);
+  border-radius: 10 px;
+}
+
+/* Inputs Purchase Styling */
+input[type=submit] {
+  width: 20em;  height: 2em;
+}

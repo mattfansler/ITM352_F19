@@ -1,0 +1,52 @@
+body {
+    width: 880px;
+    margin: 0 auto;
+    
+}
+
+body {
+    font-size: large;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    background-image: url(/Assignment1/static/images/background1.jpg);
+    background-size:cover;
+}
+
+p {
+    text-align: center;
+}
+
+p.regular {
+    text-align: center;
+    font: "times";
+    font-size: 14px;
+    font-style: normal;
+}
+
+p.discount {
+    text-align: center;
+    font: "arial";
+    font-size: 14px;
+    font-style: italic;
+}
+
+h1,h2 {
+    font-style: italic ;
+    text-align: center;
+    color: black;
+}
+
+img {
+    display: block;
+    border: 1px; 
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    padding: 10px;
+}
+table {
+   border: 10px;
+   border-color: black; 
+}

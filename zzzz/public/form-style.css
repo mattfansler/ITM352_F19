@@ -1,0 +1,29 @@
+/*Pulled from SmartphoneProducts2 and SmartphoneProducts3*/
+
+/* Image Specifications */ 
+img{
+    height:200px; /*height for all images*/
+    width:200px; /*width for all images*/
+}
+
+/* Styling the products display */
+main{
+    display: flex; /* sets how the items will adapt in container*/
+    flex-flow: row wrap; /*will wrap items in a row*/
+    justify-content: space-around; /*browser distributes items so space around objects are even */
+    color: black; /*color of text*/
+}
+
+/*Setting css for the body*/
+body{
+    background: url(./images/sand.jpg); /*Background image is from the ./public/images folder*/
+    font-family:'Open Sans',sans-serif; /*font*/
+    
+}
+
+/* Font & Color */
+
+h1,h2{ /*For text in the <h1> and <h2> headers*/
+    color: black; /*text color*/
+    text-align: center /*align text to center*/
+}
