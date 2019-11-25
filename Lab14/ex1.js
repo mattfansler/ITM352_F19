@@ -1,6 +1,11 @@
-import {readFileSync} from "fs";
+
 readFileSync(filename, 'utf-8');
+
 var fs = require('fs');
+
+var myParser = require('body-parser');
 var filename = 'user_data.json'
-var data = fs.readFileSync()
-console.log(data.dpot);
+var raw_data = fs.readFileSync(filename, 'utf-8')
+
+var data = json.parse(raw_data);
+console.log(data.dport);

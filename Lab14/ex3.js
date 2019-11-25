@@ -43,7 +43,7 @@ app.get("/login", function (request, response) {
  });
 
 app.post("/login", function (request, response) {
-    // Process login form POST and redirect to logged in page if ok, back to login page if not
+    // Process login form POST and redirect to logged in page if ok, back to login page if not. More secure than app.get
     let POST = request.body;
     console.log(POST);
 
