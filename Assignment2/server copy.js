@@ -1,7 +1,7 @@
-const querystring = require('querystring'); //use querstring
+const querystring = require('querystring');
 var express = require('express'); //Use express module
 var app = express(); // Create an object with express
-var fs = require('fs'); //require a file system from node
+//var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in req.body
 var products = require('./public/product_data.js'); // location of products
 

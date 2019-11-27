@@ -1,17 +1,18 @@
 const querystring = require('querystring');
 var express = require('express'); //Use express module
 var app = express(); // Create an object with express
-//var fs = require('fs'); //require a file system from node
+var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in req.body
 var products = require('./public/product_data.js'); // location of products
+var filename = "user_data.json";
 
-app.all('*', function (request, response, next) {
+app.all('*', function (request, response, next) {    //Initialize express
     console.log(request.method + ' to' + request.path);
     next();
 });
-app.use(myParser.urlencoded({ extended: true}));
+app.use(myParser.urlencoded({ extended: true})); //use myParser
 
-app.get("./process_page", function (request, response) {
+app.get("./checkout.html", function (request, response) {  //get checkout page if no errors
     params = request.query;
     console.log(params)
     
@@ -27,12 +28,12 @@ app.get("./process_page", function (request, response) {
                 }
             }
         }
-        qstr = querystring.stringify(request.query);
+        qstr = querystring.stringify(request.query);  //Redirect to order_page if there are errors, checkout if there are none
         if (has_errors || total_qty == 0){
             qstr = querystring.stringify(request.query);
-            response.redirect("product_page.html?" + qstr)
+            response.redirect("order_page.html?" + qstr)
         } else { //check quantity
-            response.redirect("invoice.html?" + qstr);
+            response.redirect("checkout.html?" + qstr);
         }
     }  
 });
@@ -46,6 +47,100 @@ function isNonNegInt(q, sendArrayBack = false) {  //Function from lab 11
     else if (parseInt(q) != q) errors.push('Not an integer!'); // Check that q is an integer
     return sendArrayBack ? errors : (errors.length == 0);
 }
+// Only open the file if it exists
+if (fs.existsSync(filename))
+{
+    var raw_data = fs.readFileSync(filename, 'utf-8');
+    var users_reg_data = JSON.parse(raw_data);
+    console.log(users_reg_data);
+
+    fstats = fs.statSync(filename);
+    console.log(filename + " has " + fstats.size);
+}
+else {
+    console.log('file ' + filename + " doesn't exist!");
+}
+ 
+var data = JSON.parse(raw_data);
+console.log(data.dport);
+
+app.get("/login", function (request, response) {
+    // Give a simple login form
+    str = `
+<body>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="submit" value="Submit" name="submit">
+</form>
+</body>
+    `;
+    response.send(str);
+ });
+
+app.post("/login", function (request, response) {
+    // Process login form POST and redirect to logged in page if ok, back to login page if not
+    let POST = request.body;
+    console.log(POST);
+
+    if (typeof POST['submit'] == undefined)
+    {
+        console.log('No form data');  //check if submit button was pressed
+    } else  
+    {
+        //user submitted a userid and password. Test them for validity.
+        if (users_reg_data[POST.username] != undefined)
+        {
+            if (POST.password == users_reg_data[POST.username.password])
+            {
+                console.log(password);
+            }
+        }
+    }
+});
+
+app.get("/register", function (request, response) {
+    // Give a simple register form
+    str = `
+<body>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="password" name="repeat_password" size="40" placeholder="enter password again"><br />
+<input type="email" name="email" size="40" placeholder="enter email"><br />
+<input type="submit" value="Submit" id="submit" name="submit">  
+</form>
+</body>
+    `;
+    response.send(str);
+ });
+
+ app.post("/register", function (request, response) {
+    // process a simple register form
+    console.log("Got the registration request");
+    let POST = request.body; //private variable that only effects this portion of the page
+
+    username = POST.username;  //name that is specified in app.get register name="username"
+if (typeof users_reg_data[username] == 'undefined') {
+    users_reg_data[username] = {};  //create empty object
+    users_reg_data[username].name = username; //
+    users_reg_data[username].password = POST.password; //check value
+    users_reg_data[username].email = POST.email; //check value
+    
+    if (POST.password != POST.repeat_password)
+    {
+        console.log ("Passwords do not match!");
+    }
+
+    var output_data = JSON.stringify(users_reg_data);
+    fs.writeFileSync(filename, output_data, "utf-8");
+
+    response.send("user " + username + " registered");
+} else
+{
+    response.send("User " + username + " already taken; try again.:" );
+}
+ });
 
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
