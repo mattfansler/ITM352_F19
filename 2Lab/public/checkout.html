@@ -1,0 +1,23 @@
+<script src="product_data.js"></script>
+
+<h1>Invoice</h1>
+<table border =1>
+
+        <script>
+            let myParams = (new URL(document.location)).searchParams;
+            outStr = "";
+
+            for (i=0; i<products.length; i++) {
+                thisParam = "quantity" + i;
+                let qty = myParams.get(thisParam)
+                if (qty != null)
+                {
+                    outStr += `<tr><td>${products[i].model}</td>`;
+                    outStr += `<td>${qty}</td>`;
+                    extended = qty * products[i].price;
+                    outStr += `<td>${extended}</td><tr>`;
+                }
+            }
+            document.write(outStr);
+        </script>
+</table>        
