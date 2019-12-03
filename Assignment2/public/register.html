@@ -23,7 +23,7 @@
                 Register['name'].value = params.get('name');
                 Register['username'].value = params.get('username');
                 Register['password'].value = params.get('password');
-                Register['confirmpsw'].value = params.get('confirmpsw');
+                Register['pswd'].value = params.get('pswd');
                 Register['email'].value = params.get('email');
 
                 //do for the rest of register form
@@ -63,11 +63,11 @@
                 <br>
                 <label for="password"><b>Password</b></label>
                 <input type="password" name="password" onkeyup="" minlength="6" required><br>
-                <label for="pswlabel" id="pswlabel">Please enter a password</label>
+                <label for="pswdlabel" id="pswdlabel">Please enter a password</label>
                 <br>
-                <label for="confirmpsw"><b>Confirm Password</b></label>
-                <input type="password" name="confirmpsw" onkeyup="" required><br>
-                <label for="confirmpswlabel" id="confirmpswlabel">Please type your password again</label>
+                <label for="pswd"><b>Confirm Password</b></label>
+                <input type="password" name="pswd" onkeyup="" required><br>
+                <label for="pswdlabel" id="pswdlabel">Please type your password again</label>
                 <br>
                 <label for="email"><b>Email Address</b></label>
                 <input type="email" id="email" name="email" onkeyup="emaillowercase()" required><br>

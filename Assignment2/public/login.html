@@ -1,6 +1,3 @@
-<!-- Kelsey Ann Kimura: Login Page -->
-<!-- This webpage allows an existing user to login into their account and make a purchase. The username and password fields have validation to verify the new user. -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,12 +7,12 @@
         // From Assignment1_DesignExamples Asssignment1_2file products_display.html
         let params = (new URL(document.location)).searchParams; //params is a variable, 
 
-        // Creating function window.onload so when the page is loading, it checks to make sure there is a quantity written and that the quantities in textbox are valid
+       
         //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
 
         window.onload = function () { // creating the function for window.onload
-            //Check if we're getting redirected from the server because of an error
-            if (params.has('LogError')) { //if params has invalid registration data
+            //Check for errors 
+            if (params.has('errors')) { //if params has invalid registration data
 
                 // Put the original data back into the textboxes
                 //put values of query string into username and password boxes
@@ -40,9 +37,7 @@
 </head>
 <body>
 <div>
-<!-- //Creating the login form*/
-/*Help from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
-<!-- Help from https://www.w3schools.com/howto/howto_css_login_form.asp -->
+<!-- https://www.w3schools.com/howto/howto_css_login_form.asp -->
     <form name="login" method="POST">
         Login Page <br> <br>
         <div class="container">
