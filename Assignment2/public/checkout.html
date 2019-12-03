@@ -10,15 +10,15 @@
 <script src = "service_data.js"> //location of services</script> 
 
 <script>
-        let params = (new URL(document.location)).searchParams;  //search parameters from a NEW URL
+        let params = (new URL(document.location)).searchParams;  //params = search parameters from a NEW URL 
         var quantities = {}; //empty object
         
         
-        if (params.has('final_submission')) {
+        if (params.has('/purchase')) {
             for (i = 0; i < services.length; i++) {
                 if (params.has(`quantity${i}`)) {
                     a_qty = params.get(`quantity${i}`);
-                    quantities[i] = a_qty;
+                    //quantities[i] = a_qty;
                 }
             }
         }
@@ -55,7 +55,7 @@
                     </tr>
                     `);}}
                         // Computes tax 
-                            var tax_rate = 0.045
+                            var tax_rate = 0.045  //local tax rate
                             var tax = subtotal * tax_rate;
                         // Computes Discount
                         if (subtotal >= 100) {

@@ -31,7 +31,7 @@
 */
 
    
-    let params = (new URL(document.location)).searchParams; // Query string and form data.
+    let params = (new URL(document.location)).searchParams; //params = search parameters from a NEW URL 
     
     windows.onload = function () { 
         if (params.has('validQuantities')) { //alert if there is a valid quantity
@@ -62,13 +62,13 @@
             if (theTextbox.value.trim() == '') errs = ['Quantity'];
             document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
     }     
-        //lab12 check to see if q is a non-negative integer
+        //lab12 check to see if a_qty is a non-negative integer
     function isNonNegInt(q, sendArrayBack = false) {
         errors = []; // assume no errors at first
-        if (q == '') q = 0; //if q is blank, set it to 0
-        if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-        else if (q < 0) errors.push('Negative value!'); // Check if q is non-negative
-        else if (parseInt(q) != q) errors.push('Not an integer!'); // Check that q is an integer
+        if (a_qty == '') a_qty = 0; //if a_qty is blank, set it to 0
+        if (Number(a_qty) != a_qty) errors.push('Not a number!'); // Check if string is a number value
+        else if (a_qty < 0) errors.push('Negative value!'); // Check if a_qty is non-negative
+        else if (parseInt(a_qty) != a_qty) errors.push('Not an integer!'); // Check that a_qty is an integer
         return sendArrayBack ? errors : (errors.length == 0);
     }    
 
@@ -123,7 +123,7 @@
         <div style="text-align: center;">
         <br>  
             <main>
-            <script>
+            <script> //Need placeholder to be a number
                 for (i = 0; i < services.length; i++) {
                     document.write(`
             <section class="item">
@@ -131,11 +131,12 @@
                 <h3>$${services[i].price}</h3>
                 <img src = "./images/${services[i].image}">
                 <h4>${services[i].description}</h4>
-                <h5>${services[i].description2}</h4>
+                <h5>${services[i].description2}</h4> 
+                        
                     <br>
                 <label id="qtyTextbox${i}_label"}">Total Passengers:</label>
                 <input type = "text" 
-                        placeholder="0"
+                        placeholder=${services[i].default} 
                         name="qtyTextbox${i}_label" 
                         onkeyup="checkQuantityTextbox(this);">
             </section>

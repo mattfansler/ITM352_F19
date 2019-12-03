@@ -6,7 +6,7 @@
 
         // get the query string values from form submission (Lab13 order_page)
         // From Assignment1_DesignExamples Asssignment1_2file products_display.html
-        let params = (new URL(document.location)).searchParams; //params is a variable, 
+        let params = (new URL(document.location)).searchParams; //params = search parameters from a NEW URL 
 
         // Creating function window.onload so when the page is loading, it checks to make sure there is a quantity written and that the quantities in textbox are valid
         //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
@@ -46,7 +46,7 @@
 /*Help from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
         <!-- Help from https://www.w3schools.com/howto/howto_css_login_form.asp -->
         <!-- Code for Maximum Length of Text: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text -->
-        <form name="Register" method="POST">
+        <form name="register" method="POST">
             Registration Page <br> <br>
             <div class="container">
                 <label for="name"><b>Name</b></label>
@@ -74,7 +74,7 @@
             </div>
         </form>
         <script>
-            Register.action = "./register.html" + document.location.search;
+            Register.action = "./public/registration.html" + document.location.search;
         </script>
         </table>
     </div>

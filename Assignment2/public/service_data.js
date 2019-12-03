@@ -4,36 +4,42 @@ var services =
     "service": "How Many Miles?",  
     "price": 2,
     "image": "road.jpeg",
-    "description": "How far are you going?",
-    "description2": "Step 1"
+    "description": "How far are we going?",
+    "description2": "Mandatory! Minimum charge of $10, 5 miles",
+    "default": 5
   },
   {  
   "service": "Traditional",  
   "price": 10,
   "image": "taxicab.png",
   "description": "A driver will pick you up",
-  "description2": "Step 2"
+  "description2": "Traditional Taxi Service (optional)",
+  "default": 0
   },
   {  
     "service": "Transport 5 Passenger Vehicle",  
     "price": 20,
     "image": "/car.png",
     "description": "Don't leave your car at the bar!",
-    "description2": "Step 3, need a tow?" 
+    "description2": "Let us drive your car home (optional)",
+    "default": 0 
   },
   {  
   "service": "Transport Moped/Motorcycle",  
   "price": 10,
   "image": "/motorcycle.png",
   "description": "Don't mope! We can get your moped home for you!",
-  "description2": "Step 4, need a moped/motercyle pick up?" 
+  "description2": "Let us drive your car home (optional)",
+  "default": 0 
   },
   {  
     "service": "Transport Van",  
     "price": 25,
     "image": "/van.png",
     "description": "Don't forget about the van!",
-    "description2": "Step 5, need a Van pickup?"  
+    "description2": "Let us drive your car home (optional)",
+    "default": 0
+
   }
 
 ];

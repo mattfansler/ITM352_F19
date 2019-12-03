@@ -1,4 +1,4 @@
-const qs = require('querystring') //use querystring
+const qs = require('querystring'); //use querystring
 var express = require('express'); //Use express module
 var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
@@ -7,7 +7,7 @@ var myParser = require("body-parser"); //needed to make form data to be availabl
 const service_data = require('./public/service_data.js'); //keep service_data constant
 var filename = "user_data.json"; //location of user reg data
 //var user_quantity_data; // hold quantity variables until invoice is displayed
-
+var  a_qty; 
 app.use(myParser.urlencoded({ extended: true})); //use myParser
 
 app.all('*', function (request, response, next) {    //Initialize express
@@ -28,8 +28,57 @@ if (fs.existsSync(filename))
 } else {
     console.log('file ' + filename + " doesn't exist!");
      }
- 
-app.post("/login.html", function (request, response) { //Lab14
+app.get('/purchase', function (request, response, next) { //get data from /purchase action
+    console.log(Date.now() + ' raw_data: ' +JSON.stringify(request.query)); //log date and quantites 
+
+    let grab = request.query; //grab request from query
+    console.log(grab); //grab query from the form 
+    var validQuantities = true; //textboxes are blank to start, nothing is invalid
+    var validPurchases = true; //quantities are considered false since it should be empty to start
+    var minMiles = 5; //Minimum charge is 5 miles, number is set to appear automatically in /service_data.js default
+    a_qty = 0;
+    for(i = 0; i < service_data.length; i++ ) { //starting at 0 then increase by one for every service available
+        a_qty += grab['qtyTextbox' + i]; //a_qty is the quantity from textbox
+        if (isNonNegInt(a_qty) == false) { // if not an integer
+            validQuantities = false; //quantites are not valid 
+            console.log(a_qty);
+        };
+      
+      
+      //validPurchases not turning to true even though a_qty is greater than minMiles
+      
+      
+        if (a_qty > minMiles) { //if quantity is a postiive integer
+            validPurchases = true; // change from false to true once it is no longer blank.
+        }
+        console.log(validQuantities, validPurchases); //log into console to check validity
+    }
+    qString = qs.stringify(a_qty); //string query together
+    if (validQuantities == true && validPurchases == true) { //if both are true
+        response.redirect('/login.html?' + qs.stringify(request.query)); //send to login with the form data 
+    } else { //if either is false
+    request.query["validQuantities"] = validQuantities; // request the query for validQuantities
+    request.query["validPurchases"] = validPurchases; // request the query for validPurchases
+    console.log(request.query); // log the query into the console
+    response.redirect('./order_page.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
+    }
+}
+)
+app.get("/login", function (request, response) {
+    // Give a simple login form
+    str = `
+    <body>
+    <form action="" method="POST">
+    <input type="text" name="username" size="40" placeholder="enter username" ><br />
+    <input type="password" name="password" size="40" placeholder="enter password"><br />
+    <input type="submit" value="Submit" name="submit">
+    </form>
+    </body>
+    `;
+    response.send(str);
+    });
+
+app.post("loginForm", function (request, response) { //Lab14
     // Process login form POST and redirect to logged in page if ok, back to login page if not
     var errors = []; //create a blank errors variable
     newUsername = request.body.username.toLowerCase();  //convert to all lowercase username to prevent case errors in the future
@@ -53,11 +102,11 @@ app.post("/login.html", function (request, response) { //Lab14
             request.query.password = request.body.password;
             request.query.errors = errors.join(';');
         }
-    response.redirect('/login.html?' + qs.stringify(request.query));
+    response.redirect('./public/login.html?' + qs.stringify(request.query));
     }
 );
 
-app.post("/register", function (request, res) {
+app.post("./public/registration.html", function (request, res) {
   
   var errors = []; //create an array for errors
 
@@ -165,48 +214,15 @@ app.post("/register", function (request, res) {
     }  
 }); 
 */
-app.get('/purchase', function (request, response, next) { //get data from /purchase action
-    console.log(Date.now() + ' raw_data: ' +JSON.stringify(request.query)); //log date and quantites 
-
-    let grab = request.query; //grab request from query
-    console.log(grab); //grab query from the form 
-    var validQuantities = true; //textboxes are blank to start, nothing is invalid
-    var validPurchases = true; //quantities are considered false since it should be empty to start
-    for(i = 0; i < service_data.length; i++ ) { //starting at 0 then increase by one for every service available
-        q = grab['qtyTextbox' + i]; //q is the quantity from textbox
-        if (isNonNegInt(q) == false) { // if not an integer
-            validQuantities = false; //quantites are not valid 
-        }
-      
-      
-      //validPurchases not turning to true even though q is greater than 0
-      
-      
-        if (q > 0) { //if quantity is a postiive integer
-            validPurchases = true; // change from false to true once it is no longer blank.
-        }
-        console.log(validQuantities, validPurchases); //log into console to check validity
-    }
-    qString = qs.stringify(grab); //string query together
-    if (validQuantities == true && validPurchases == true) { //if both are true
-        response.redirect('./login.html?' + qs.stringify(request.query)); //send to checkout with the form data 
-    } else { //if either is false
-    request.query["validQuantities"] = validQuantities; // request the query for validQuantities
-    request.query["validPurchases"] = validPurchases; // request the query for validPurchases
-    console.log(request.query); // log the query into the console
-    response.redirect('./order_page.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
-    }
-}
-)
 
 
-//lab11 check to see if q is a non-negative integer
-function isNonNegInt(q, sendArrayBack = false) {  //Function from lab 11
+//lab11 check to see if a_qty is a non-negative integer
+function isNonNegInt(a_qty, sendArrayBack = false) {  //Function from lab 11
     errors = []; // assume no errors at first
-    if (q == '') q = 0; //if q is blank, set it to 0
-    if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-    else if (q < 0) errors.push('Negative value!'); // Check if q is non-negative
-    else if (parseInt(q) != q) errors.push('Not an integer!'); // Check that q is an integer
+    if (a_qty == '') a_qty = 0; //if a_qty is blank, set it to 0
+    if (Number(a_qty) != a_qty) errors.push('Not a number!'); // Check if string is a number value
+    else if (a_qty < 0) errors.push('Negative value!'); // Check if a_qty is non-negative
+    else if (parseInt(a_qty) != a_qty) errors.push('Not an integer!'); // Check that a_qty is an integer
     return sendArrayBack ? errors : (errors.length == 0);
 };
 
