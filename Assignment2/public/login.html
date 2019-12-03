@@ -1,62 +1,40 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-
-<script>
-        // get the query string values from form submission (Lab13 order_page)
-        // From Assignment1_DesignExamples Asssignment1_2file products_display.html
-        let params = (new URL(document.location)).searchParams; //params is a variable, 
-
-       
-        //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
-
-        window.onload = function () { // creating the function for window.onload
-            //Check for errors 
-            if (params.has('errors')) { //if params has invalid registration data
-
-                // Put the original data back into the textboxes
-                //put values of query string into username and password boxes
-                login['username'].value = params.get('username');
-                login['password'].value = params.get('password');
-
-                //do for the rest of register form
-                //get errors, indicate them on form
-                //if there is a login error, put up an alert
-                alert('Invalid Username or Password');
-            }
-        }
-
-</script>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="login-style.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-</head>
-<body>
-<div>
-<!-- https://www.w3schools.com/howto/howto_css_login_form.asp -->
-    <form name="login" method="POST">
-        Login Page <br> <br>
-        <div class="container">
-                <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" id="username" name="username" required><br>
-                <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" onkeyup="" required><br>
-        <br>
-        <input type="submit" name="login" value="Login">
-    </div>
-    </form>
-    <script>
-   login.action="./login.html" + document.location.search;
+    <head>
+        <script>
+    //Authors: Joshua Jerome and Matthew Fansler
+    //Source: Html is based off of Lab14
+    //Description: Log in page for returning users. In addition, this page allows user to register if their are a new user.
     </script>
+    
+            <link href="services_style.css" rel="stylesheet">
+    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Login</title>
+        <link href="services_style.css" rel="stylesheet">
+    
+    </head>
+    
+    <body><h1>Don't Drink and Drive Login</h1>
+    
+    <h2>Login below to begin!!</h2>
+    
+        <form name="loginform" method="POST"> 
+            <div>
+            <input type="text" name="username" size="40" placeholder="enter username"><br> 
+            <input type="password" name="password" size="40" placeholder="enter password"><br>
+            <input type="submit" value="login" id="submit">  </div>
+            </form>  
+    
+    
+    <h2>Need a ride in the future? New users register below!</h2>
+    
+    <div>
+        <form action="./registration.html">
+        <input type="submit" value="Register Here" id="regpage" name="register_here">
+        </form>
+    </div>
 
-    <br>
-        <input type="button" name="newuser" value="New User" onclick="window.location='./register.html' + document.location.search;">
-         
-</table>
-</div>
-</body>
+    </body>
 </html>
