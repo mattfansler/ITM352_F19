@@ -29,14 +29,7 @@
             document.getElementById(textbox.name + '_label').innerHTML = errs.join(", ");
     } 
 */
-   
-    function thankYou() {
-    if (isNonNegInt(passenger_request_form.qtyTextbox.value)) {
-        document.write(`Thank you, ${username}, your driver is on the way`);
-    } else {
-        alert('Please enter a valid quantity')
-    }
-    }
+
    
     let params = (new URL(document.location)).searchParams; // Query string and form data.
     
@@ -76,7 +69,13 @@
         return sendArrayBack ? errors : (errors.length == 0);
     }    
 
-
+    function thankYou() {
+    if (isNonNegInt(passenger_request_form.qtyTextbox.value)) {
+        document.write(`Thank you, ${username}, your driver is on the way`);
+    } else {
+        alert('Please enter a valid quantity')
+    }
+    }
 
     /*window.onload = function () { 
             if (params.has('validQuanitities')) { //if there is a valid quantity
