@@ -39,6 +39,9 @@
                 alert('Invalid quantity selected, please try again');
 
             }
+            if (params.get('validPurchases') == false) { //if no services were selected
+                alert("Please select a service"); //alert user no services were selected
+            }
 
             for (i = 0; i < service_data.length; i++) { // for every product
                 if (params.has(`qtyTextbox${i}`)) { // if there is something in the textbox

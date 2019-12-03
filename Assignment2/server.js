@@ -170,15 +170,20 @@ app.get('/purchase', function (request, response, next) { //get data from /purch
 
     let grab = request.query; //grab request from query
     console.log(grab); //grab query from the form 
-    var validQuantities = true; //textboxes are blank to start
+    var validQuantities = true; //textboxes are blank to start, nothing is invalid
     var validPurchases = false; //quantities are considered false since it should be empty to start
-    for(i = 0; i < service_data.length; i++ ) { //starting at 0 then increase by one for every service
+    for(i = 0; i < service_data.length; i++ ) { //starting at 0 then increase by one for every service available
         q = grab['qtyTextbox' + i]; //q is the quantity from textbox
         if (isNonNegInt(q) == false) { // if not an integer
             validQuantities = false; //quantites are not valid 
         }
+      
+      
+      //validPurchases not turning to true even though q is greater than 0
+      
+      
         if (q > 0) { //if quantity is a postiive integer
-            validPurchases = true; // change from false to true now that it isn't blank
+            validPurchases = true; // change from false to true once it is no longer blank.
         }
         console.log(validQuantities, validPurchases); //log into console to check validity
     }
