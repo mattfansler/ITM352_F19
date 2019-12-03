@@ -3,7 +3,7 @@ var express = require('express'); //Use express module
 var app = express(); // Create an object with express
 //var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in req.body
-var products = require('./public/product_data.js'); // location of products
+var products = require('./public/product_data.js.js.js.js.js.js'); // location of products
 
 app.all('*', function (request, response, next) {
     console.log(request.method + ' to' + request.path);

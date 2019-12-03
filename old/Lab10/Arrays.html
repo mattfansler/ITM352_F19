@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  </head>
+  <body>
+    <script>
+
+        var twoDim = [['Poke'], ['Hummus'], 
+                    ['Sushi'], ['Pineapple']];
+
+        document.write("<table border=1");
+        outStr = "";
+        for (i = 0; i < twoDim.length; i++) {
+            outStr += "<tr>"
+            for (j = 0; j < twoDim[1].length; j++) {
+            outStr += "<td>" + twoDim[i][j] + "</td>";
+        }
+            outStr += "</tr>" ;
+        }
+        outStr += "</table>" ;
+        document.write(outStr);
+    </script>
+</body>
+
+</html>
