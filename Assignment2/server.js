@@ -7,64 +7,64 @@ var myParser = require("body-parser"); //needed to make form data to be availabl
 const service_data = require('./public/service_data.js'); //keep service_data constant
 var filename = "user_data.json"; //location of user reg data
 //var user_quantity_data; // hold quantity variables until invoice is displayed
-var  a_qty; 
-app.use(myParser.urlencoded({ extended: true})); //use myParser
+var a_qty;
+app.use(myParser.urlencoded({ extended: true })); //use myParser
 
-app.all('*', function (request, response, next) {    //Initialize express
-    console.log(`${request.method} + ' to' + ${request.path}`);
-    next();
-});
+
 
 // Only open the file if it exists Lab 14
-if (fs.existsSync(filename))
-{
+if (fs.existsSync(filename)) {
     fstats = fs.statSync(filename);
     console.log(filename + " has " + fstats.size + " characters");
 
     raw_data = fs.readFileSync(filename, 'utf-8');
     users_reg_data = JSON.parse(raw_data); //parse users registatration
 
-    
+
 } else {
     console.log('file ' + filename + " doesn't exist!");
-     }
-app.get('/purchase', function (request, response, next) { //get data from /purchase action
-    console.log(Date.now() + ' raw_data: ' +JSON.stringify(request.query)); //log date and quantites 
+}
+
+
+app.get('purchase', function (request, response, next) { //get data from /purchase action
+    console.log(Date.now() + ' raw_data ' + JSON.stringify(request.query)); //log date and quantites 
 
     let grab = request.query; //grab request from query
     console.log(grab); //grab query from the form 
     var validQuantities = true; //textboxes are blank to start, nothing is invalid
-    var validPurchases = true; //quantities are considered false since it should be empty to start
+    var validPurchases = false; //quantities are considered false since it should be empty to start
     var minMiles = 5; //Minimum charge is 5 miles, number is set to appear automatically in /service_data.js default
-    a_qty = 0;
-    for(i = 0; i < service_data.length; i++ ) { //starting at 0 then increase by one for every service available
-        a_qty += grab['qtyTextbox' + i]; //a_qty is the quantity from textbox
+    tot_qty = 0;
+    for (i = 0; i < service_data.length; i++) { //starting at 0 then increase by one for every service available
+        index = 'qtyTextbox' + i;
+
+        a_qty = grab[index]; //a_qty is the quantity from textbox
         if (isNonNegInt(a_qty) == false) { // if not an integer
             validQuantities = false; //quantites are not valid 
             console.log(a_qty);
-        };
-      
-      
-      //validPurchases not turning to true even though a_qty is greater than minMiles
-      
-      
-        if (a_qty > minMiles) { //if quantity is a postiive integer
-            validPurchases = true; // change from false to true once it is no longer blank.
+        } else {
+            tot_qty += Number(a_qty);
         }
-        console.log(validQuantities, validPurchases); //log into console to check validity
     }
+
+    //validPurchases not turning to true even though a_qty is greater than minMiles
+    if (tot_qty > minMiles) { //if quantity is a postiive integer
+        validPurchases = true; // change from false to true once it is no longer blank.
+    }
+    console.log(validQuantities, validPurchases); //log into console to check validity
+    
     qString = qs.stringify(a_qty); //string query together
     if (validQuantities == true && validPurchases == true) { //if both are true
-        response.redirect('/login.html?' + qs.stringify(request.query)); //send to login with the form data 
+        response.redirect('login.html?' + qs.stringify(request.query)); //send to login with the form data 
     } else { //if either is false
-    request.query["validQuantities"] = validQuantities; // request the query for validQuantities
-    request.query["validPurchases"] = validPurchases; // request the query for validPurchases
-    console.log(request.query); // log the query into the console
-    response.redirect('./order_page.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
+        request.query["validQuantities"] = validQuantities; // request the query for validQuantities
+        request.query["validPurchases"] = validPurchases; // request the query for validPurchases
+        console.log(request.query); // log the query into the console
+        response.redirect('./order_page.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
     }
 }
 )
-app.get("/login", function (request, response) {
+app.get("/loginform", function (request, response) {
     // Give a simple login form
     str = `
     <body>
@@ -76,9 +76,9 @@ app.get("/login", function (request, response) {
     </body>
     `;
     response.send(str);
-    });
+});
 
-app.post("loginForm", function (request, response) { //Lab14
+app.post("/loginForm", function (request, response) { //Lab14
     // Process login form POST and redirect to logged in page if ok, back to login page if not
     var errors = []; //create a blank errors variable
     newUsername = request.body.username.toLowerCase();  //convert to all lowercase username to prevent case errors in the future
@@ -95,90 +95,90 @@ app.post("loginForm", function (request, response) { //Lab14
             request.query.password = request.body.password;
             request.query.errors.join(';');
         }
-        } else {
-            errors.push = ('Invalid Username');
-            console.log(errors);
-            request.query.username = newUsername;
-            request.query.password = request.body.password;
-            request.query.errors = errors.join(';');
-        }
-    response.redirect('./public/login.html?' + qs.stringify(request.query));
+    } else {
+        errors.push = ('Invalid Username');
+        console.log(errors);
+        request.query.username = newUsername;
+        request.query.password = request.body.password;
+        request.query.errors = errors.join(';');
     }
+    response.redirect('./public/login.html?' + qs.stringify(request.query));
+}
 );
 
 app.post("./public/registration.html", function (request, res) {
-  
-  var errors = []; //create an array for errors
 
-  if ((request.body.realName < 2)) {  //must be more than 2 characters
-    errors.push('Name Is Too Short'
-    )
-}
-  if ((request.body.realName > 50)) {   //must be less than 50 characters
-    errors.push('Name Is Too Long')
-  }
+    var errors = []; //create an array for errors
+
+    if ((request.body.realName < 2)) {  //must be more than 2 characters
+        errors.push('Name Is Too Short'
+        )
+    }
+    if ((request.body.realName > 50)) {   //must be less than 50 characters
+        errors.push('Name Is Too Long')
+    }
 
     if (/^[0-9a-zA-Z]+$/.test(request.body.realName)) { //Check for special characters https://www.w3resource.com/javascript/form/all-letters-field.php
     }
     else {
         errors.push('Letters And Numbers Only for Username')
     }
-    
-  if ((request.body.username.length < 2)) { //Username must be more than 2 characters
-    errors.push('Username Is Too Short')
-  }
-  if ((request.body.username > 15)) { //Username must be less than 15
-    errors.push('Username Too Long')
-  }
-  //check if username exists, convert to lowercase
-  var regUser = request.body.username.toLowerCase(); //make username case insensitive
-  if (typeof users_reg_data[regUser] != 'undefined') { //if the username is already defined in the registration data
-    errors.push('Username Is Taken, Please Select Another')
-  }
-  //Check for special characters
-  if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
-  }
-  else {
-    errors.push('Letters And Numbers Only for Username')
-  }
 
-  //check if password is a minimum of 6 characters long
-  if ((request.body.password < 6)) {
-    errors.push('Password Too Short')
-  }
-  //check if password entered equals to the repeat password entered - make sure password is case sensitive
-  if (request.body.password !== request.body.pswd) { // if password equals confirm password
-    errors.push('Password Not a Match')
-  }
+    if ((request.body.username.length < 2)) { //Username must be more than 2 characters
+        errors.push('Username Is Too Short')
+    }
+    if ((request.body.username > 15)) { //Username must be less than 15
+        errors.push('Username Too Long')
+    }
+    //check if username exists, convert to lowercase
+    var regUser = request.body.username.toLowerCase(); //make username case insensitive
+    if (typeof users_reg_data[regUser] != 'undefined') { //if the username is already defined in the registration data
+        errors.push('Username Is Taken, Please Select Another')
+    }
+    //Check for special characters
+    if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
+    }
+    else {
+        errors.push('Letters And Numbers Only for Username')
+    }
 
-  var regemail = request.body.email.toLowerCase(); //make email case insensitive
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(regemail)) {
-  }
-  else {
-    errors.push('Invalid Email')
-  }
+    //check if password is a minimum of 6 characters long
+    if ((request.body.password < 6)) {
+        errors.push('Password Too Short')
+    }
+    //check if password entered equals to the repeat password entered - make sure password is case sensitive
+    if (request.body.password !== request.body.pswd) { // if password equals confirm password
+        errors.push('Password Not a Match')
+    }
 
-  //https://www.w3resource.com/javascript/form/email-validation.php
-  //if data is valid, redirect checkout
+    var regemail = request.body.email.toLowerCase(); //make email case insensitive
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(regemail)) {
+    }
+    else {
+        errors.push('Invalid Email')
+    }
 
-  if (errors.length == 0) {
-    console.log('Error Free');
-    request.query.username = regUser;
-    res.redirect('./checkout.html?' + qs.stringify(request.query))
-  }
-  if (errors.length > 0) {
-    console.log(errors)
-    request.query.name = request.body.name;
-    request.query.username = request.body.username;
-    request.query.password = request.body.password;
-    request.query.pswd = request.body.pswd;
-    request.query.email = request.body.email;
+    //https://www.w3resource.com/javascript/form/email-validation.php
+    //if data is valid, redirect checkout
 
-    request.query.errors = errors.join(';');
-    response.redirect('./register' + qs.stringify(request.query)) 
-  }
+    if (errors.length == 0) {
+        console.log('Error Free');
+        request.query.username = regUser;
+        res.redirect('./checkout.html?' + qs.stringify(request.query))
+    }
+    if (errors.length > 0) {
+        console.log(errors)
+        request.query.name = request.body.name;
+        request.query.username = request.body.username;
+        request.query.password = request.body.password;
+        request.query.pswd = request.body.pswd;
+        request.query.email = request.body.email;
 
-  //add errors to querystring
+        request.query.errors = errors.join(';');
+        response.redirect('./register' + qs.stringify(request.query))
+    }
+
+    //add errors to querystring
 
 }
 );
@@ -280,31 +280,37 @@ function isNonNegInt(a_qty, sendArrayBack = false) {  //Function from lab 11
     }
  });
 */
- app.post("/register", function (request, response) {
+app.post("/register", function (request, response) {
     // process a simple register form
     console.log("Got the registration request");
     let POST = request.body; //private variable that only effects this portion of the page
     username = POST.username;  //name that is specified in app.get register name="username"
-if (typeof users_reg_data[username] == 'undefined') {
-    users_reg_data[username] = {};  //create empty object
-    users_reg_data[username].name = username; //
-    users_reg_data[username].password = POST.password; //check value
-    users_reg_data[username].email = POST.email; //check value
-    
-    if (POST.password != POST.repeat_password)
-    {
-        console.log ("Passwords do not match!");
+    if (typeof users_reg_data[username] == 'undefined') {
+        users_reg_data[username] = {};  //create empty object
+        users_reg_data[username].name = username; //
+        users_reg_data[username].password = POST.password; //check value
+        users_reg_data[username].email = POST.email; //check value
+
+        if (POST.password != POST.repeat_password) {
+            console.log("Passwords do not match!");
+        }
+
+        var output_data = JSON.stringify(users_reg_data);
+        fs.writeFileSync(filename, output_data, "utf-8");
+
+        response.send("user " + username + " registered");
+    } else {
+        response.send("User " + username + " already taken; try again.:");
     }
+});
 
-    var output_data = JSON.stringify(users_reg_data);
-    fs.writeFileSync(filename, output_data, "utf-8");
-
-    response.send("user " + username + " registered");
-} else
-{
-    response.send("User " + username + " already taken; try again.:" );
-}
- });
 
 app.use(express.static('./public'));
+
+app.all('*', function (request, response, next) {    //Initialize express
+    console.log(`${request.method} + ' to' + ${request.path}`);
+    next();
+});
+
+
 app.listen(8080, () => console.log(`listening on port 8080`));

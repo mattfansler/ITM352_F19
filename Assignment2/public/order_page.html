@@ -118,7 +118,7 @@
     <div style="text-align: right;"><li><a href="./index.html">Home</a></li>
     <a class="active" href="./order_page.html"></a>
     </ul>
-        <form name="passenger_request_form" action="/purchase" method="GET"> 
+        <form name="passenger_request_form" action="purchase" method="GET"> 
          
         <div style="text-align: center;">
         <br>  
@@ -134,10 +134,10 @@
                 <h5>${services[i].description2}</h4> 
                         
                     <br>
-                <label id="qtyTextbox${i}_label"}">Total Passengers:</label>
+                <label id="qtyTextbox${i}"}">Total Passengers:</label>
                 <input type = "text" 
-                        placeholder=${services[i].default} 
-                        name="qtyTextbox${i}_label" 
+                        value=${services[i].default} 
+                        name="qtyTextbox${i}" 
                         onkeyup="checkQuantityTextbox(this);">
             </section>
             `);}    
