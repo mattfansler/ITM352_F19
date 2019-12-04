@@ -26,7 +26,7 @@ if (fs.existsSync(filename)) {
 }
 
 
-app.get('/purchase', function (request, response, next) { //get data from /purchase action
+app.get('/purchase', function (request, response, _next) { //get data from /purchase action
     console.log(Date.now() + ' raw_data ' + JSON.stringify(request.query)); //log date and quantites 
 
     let grab = request.query; //grab request from query
@@ -64,7 +64,7 @@ app.get('/purchase', function (request, response, next) { //get data from /purch
     }
 }
 );
-app.get("/loginform", function (request, response) {
+/*app.get("/loginform", function (_request, response) {
     // Give a simple login form
     str = `
     <body>
@@ -77,8 +77,8 @@ app.get("/loginform", function (request, response) {
     `;
     response.send(str);
 });
-
-app.post("/loginForm", function (request, response) { //Lab14
+*/
+app.post("/login.html", function (request, response) { //Lab14
     // Process login form POST and redirect to logged in page if ok, back to login page if not
     var errors = []; //create a blank errors variable
     newUsername = request.body.username.toLowerCase();  //convert to all lowercase username to prevent case errors in the future
@@ -280,7 +280,7 @@ function isNonNegInt(a_qty, sendArrayBack = false) {  //Function from lab 11
     }
  });
 */
-app.post("/register", function (request, response) {
+/*app.post("/register", function (request, response) {
     // process a simple register form
     console.log("Got the registration request");
     let POST = request.body; //private variable that only effects this portion of the page
@@ -302,10 +302,10 @@ app.post("/register", function (request, response) {
     } else {
         response.send("User " + username + " already taken; try again.:");
     }
-});
+});*/
 
 
-app.all('*', function (request, response, next) {    //Initialize express
+app.all('*', function (request, _response, next) {    //Initialize express
     console.log(`${request.method} + ' to' + ${request.path}`);
     next();
 });

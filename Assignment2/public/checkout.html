@@ -14,7 +14,7 @@
         var quantities = {}; //empty object
         
         
-        if (params.has('purchase')) {
+        if (params.has('/purchase')) {
             for (i = 0; i < services.length; i++) {
                 if (params.has(`quantity${i}`)) {
                     a_qty = params.get(`quantity${i}`);
