@@ -4,7 +4,7 @@ var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in request.body
 //var services = require('./public/service_data.js'); // location of services
-const service_data = require('./public/service_data.js'); //keep service_data constant
+const service_data = require('./public/service_data.json'); //keep service_data constant
 var filename = "user_data.json"; //location of user reg data
 //var user_quantity_data; // hold quantity variables until invoice is displayed
 var a_qty;
@@ -106,7 +106,7 @@ app.post("/loginForm", function (request, response) { //Lab14
 }
 );
 
-app.post("./public/registration.html", function (request, res) {
+app.post("registration.html", function (request, res) {
 
     var errors = []; //create an array for errors
 
@@ -305,12 +305,10 @@ app.post("/register", function (request, response) {
 });
 
 
-app.use(express.static('./public'));
-
 app.all('*', function (request, response, next) {    //Initialize express
     console.log(`${request.method} + ' to' + ${request.path}`);
     next();
 });
 
-
+app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));

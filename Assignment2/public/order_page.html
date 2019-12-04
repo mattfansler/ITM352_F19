@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="service_data.js" type="text/javascript"></script>
+    <script src="service_data.json" type="text/javascript"></script>
     <title>"Don't Drink and Drive</title>
     <link rel="stylesheet" href="services_style.css">
     
@@ -33,7 +33,7 @@
    
     let params = (new URL(document.location)).searchParams; //params = search parameters from a NEW URL 
     
-    windows.onload = function () { 
+    window.onload = function () { 
         if (params.has('validQuantities')) { //alert if there is a valid quantity
             if (params.get("validQuantities") == false) { //invalid quantites triggers an alert
                 alert('Invalid quantity selected, please try again');
