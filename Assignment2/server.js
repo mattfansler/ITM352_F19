@@ -4,7 +4,7 @@ var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in request.body
 //var services = require('./public/service_data.js'); // location of services
-const service_data = require('./public/service_data.json'); //keep service_data constant
+const service_data = require('./public/service_data.js'); //keep service_data constant
 var filename = "user_data.json"; //location of user reg data
 //var user_quantity_data; // hold quantity variables until invoice is displayed
 var a_qty;
@@ -26,7 +26,7 @@ if (fs.existsSync(filename)) {
 }
 
 
-app.get('purchase', function (request, response, next) { //get data from /purchase action
+app.get('/purchase', function (request, response, next) { //get data from /purchase action
     console.log(Date.now() + ' raw_data ' + JSON.stringify(request.query)); //log date and quantites 
 
     let grab = request.query; //grab request from query
@@ -43,17 +43,17 @@ app.get('purchase', function (request, response, next) { //get data from /purcha
             validQuantities = false; //quantites are not valid 
             console.log(a_qty);
         } else {
-            tot_qty += Number(a_qty);
+            tot_qty += Number(a_qty); //tot_qty is the total purchases selected, must be a number > 5
         }
     }
 
     //validPurchases not turning to true even though a_qty is greater than minMiles
-    if (tot_qty > minMiles) { //if quantity is a postiive integer
+    if (tot_qty > minMiles) { //if quantity is > 5
         validPurchases = true; // change from false to true once it is no longer blank.
     }
     console.log(validQuantities, validPurchases); //log into console to check validity
     
-    qString = qs.stringify(a_qty); //string query together
+    qString = qs.stringify(tot_qty); //string query together
     if (validQuantities == true && validPurchases == true) { //if both are true
         response.redirect('login.html?' + qs.stringify(request.query)); //send to login with the form data 
     } else { //if either is false

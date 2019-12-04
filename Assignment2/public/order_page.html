@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="service_data.json" type="text/javascript"></script>
+    <script src="service_data.js" type="text/javascript"></script>
     <title>"Don't Drink and Drive</title>
     <link rel="stylesheet" href="services_style.css">
     
@@ -123,7 +123,7 @@
         <div style="text-align: center;">
         <br>  
             <main>
-            <script> //Need placeholder to be a number
+            <script> //Instead of placeholder, there is a value to ensure the miles are at least 5, leading to a $10 charge
                 for (i = 0; i < services.length; i++) {
                     document.write(`
             <section class="item">
