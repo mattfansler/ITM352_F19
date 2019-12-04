@@ -1,4 +1,5 @@
 const qs = require('querystring'); //use querystring
+const querystring = require('./public/service_data.js')
 var express = require('express'); //Use express module
 var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
