@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="services_style.css">
     <title>Document</title>
 </head>
-<script src = "service_data.json"> //location of services</script> 
+<script src = "service_data.js"> //location of services</script> 
 
 <script>
         let params = (new URL(document.location)).searchParams;  //params = search parameters from a NEW URL 
         var quantities = {}; //empty object
         
         
-        if (params.has('/purchase')) {
+        if (params.has('purchase')) {
             for (i = 0; i < services.length; i++) {
                 if (params.has(`quantity${i}`)) {
                     a_qty = params.get(`quantity${i}`);

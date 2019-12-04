@@ -53,7 +53,7 @@ app.get('/purchase', function (request, response, next) { //get data from /purch
     }
     console.log(validQuantities, validPurchases); //log into console to check validity
     
-    qString = qs.stringify(tot_qty); //string query together
+    qString = qs.stringify(a_qty); //string query together
     if (validQuantities == true && validPurchases == true) { //if both are true
         response.redirect('login.html?' + qs.stringify(request.query)); //send to login with the form data 
     } else { //if either is false
@@ -63,7 +63,7 @@ app.get('/purchase', function (request, response, next) { //get data from /purch
         response.redirect('./order_page.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
     }
 }
-)
+);
 app.get("/loginform", function (request, response) {
     // Give a simple login form
     str = `
@@ -295,7 +295,7 @@ app.post("/register", function (request, response) {
             console.log("Passwords do not match!");
         }
 
-        var output_data = JSON.stringify(users_reg_data);
+        var output_data = JSON.stringify(users_reg_data); //assign users_reg_data to output
         fs.writeFileSync(filename, output_data, "utf-8");
 
         response.send("user " + username + " registered");
