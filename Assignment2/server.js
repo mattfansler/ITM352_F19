@@ -1,5 +1,5 @@
 const qs = require('querystring'); //use querystring
-const querystring = require('./public/service_data.js')
+//const querystring = require('./public/service_data.js')
 var express = require('express'); //Use express module
 var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
@@ -26,7 +26,34 @@ if (fs.existsSync(filename)) {
     console.log('file ' + filename + " doesn't exist!");
 }
 
-
+app.post("/login.html", function (request, response) { //Lab14
+    // Process login form POST and redirect to logged in page if ok, back to login page if not
+    var errors = []; //create a blank errors variable
+    newUsername = request.body.username.toLowerCase();  //convert to all lowercase username to prevent case errors in the future
+    //newPassword = request.body.password;
+    if (typeof users_reg_data[newUsername] != 'undefined') {  //check if username already exists in user reg data
+        if (users_reg_data[newUsername].password == req.body.password) {  //does password match username?
+            request.query.username = newUsername;
+            console.log(request.query.name);
+            response.redirect('/checkout.html?' + qs.stringify(request.query)); //send query to checkout
+            return;
+        } else {
+            errors.push = ('Invalid Password');
+            console.log(errors);
+            request.query.username = newUsername
+            request.query.password = request.body.password;
+            request.query.errors.join(';');
+        }
+    } else {
+        errors.push = ('Invalid Username');
+        console.log(errors);
+        request.query.username = newUsername;
+        request.query.password = request.body.password;
+        request.query.errors = errors.join(';');
+    }
+    response.redirect('./public/login.html?' + qs.stringify(request.query));
+}
+);
 app.get('/purchase', function (request, response, _next) { //get data from /purchase action
     console.log(Date.now() + ' raw_data ' + JSON.stringify(request.query)); //log date and quantites 
 
@@ -38,14 +65,20 @@ app.get('/purchase', function (request, response, _next) { //get data from /purc
     tot_qty = 0;
     for (i = 0; i < service_data.length; i++) { //starting at 0 then increase by one for every service available
         index = 'qtyTextbox' + i;
+        console.log(tot_qty);
+        console.log(a_qty);
 
         a_qty = grab[index]; //a_qty is the quantity from textbox
         if (isNonNegInt(a_qty) == false) { // if not an integer
             validQuantities = false; //quantites are not valid 
             console.log(a_qty);
+            
         } else {
             tot_qty += Number(a_qty); //tot_qty is the total purchases selected, must be a number > 5
+           
         }
+        console.log(tot_qty);
+            console.log(a_qty);
     }
 
     //validPurchases not turning to true even though a_qty is greater than minMiles
@@ -79,33 +112,7 @@ app.get('/purchase', function (request, response, _next) { //get data from /purc
     response.send(str);
 });
 */
-app.post("/login.html", function (request, response) { //Lab14
-    // Process login form POST and redirect to logged in page if ok, back to login page if not
-    var errors = []; //create a blank errors variable
-    newUsername = request.body.username.toLowerCase();  //convert to all lowercase username to prevent case errors in the future
-    newPassword = request.body.password;
-    if (typeof users_reg_data[newUsername] != 'undefined') {  //check if username already exists in user reg data
-        if (users_reg_data[newUsername].password == newPassword) {  //does password match username?
-            request.query.username = newUsername;
-            response.redirect('/checkout.html?' + qs.stringify(request.query)); //send query to checkout
-            return;
-        } else {
-            errors.push = ('Invalid Password');
-            console.log(errors);
-            request.query.username = newUsername
-            request.query.password = request.body.password;
-            request.query.errors.join(';');
-        }
-    } else {
-        errors.push = ('Invalid Username');
-        console.log(errors);
-        request.query.username = newUsername;
-        request.query.password = request.body.password;
-        request.query.errors = errors.join(';');
-    }
-    response.redirect('./public/login.html?' + qs.stringify(request.query));
-}
-);
+
 
 app.post("registration.html", function (request, res) {
 

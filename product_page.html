@@ -10,22 +10,19 @@
     <script>
 
         function checkQuantityTextbox() {
-            errs_array = isNonNegInt(qtyTextbox.value, true);
-            qty_textbox_message.innerHTML = errs_array.join(',');  //asdlkfjeopanmcoie
+            errs_array = isNonNegInt(quantity_textbox.value, true);
+            qty_textbox_message.innerHTML = errs_array.join(',');
         }
-    //lab11 check to see if a_qty is a non-negative integer
-    function isNonNegInt(a_qty, sendArrayBack = false) { 
-    errors = []; // assume no errors at first
-    if (a_qty == '') a_qty = 0; //if a_qty is blank, set it to 0
-    if (Number(a_qty) != a_qty) errors.push('Not a number!'); // Check if string is a number value
-    else if (a_qty < 0) errors.push('Negative value!'); // Check if a_qty is non-negative
-    else if (parseInt(a_qty) != a_qty) errors.push('Not an integer!'); // Check that a_qty is an integer
-    return sendArrayBack ? errors : (errors.length == 0);
-};
-        
-    function displayPurchase() {
-    if (isNonNegInt(quantity_form.quantity_textbox.value)) {
-    document.write(`Thank you for ordering ${quantity_form.quantity_textbox.value} things!`);
+        function isNonNegInt(q, returnErrors = false) {
+            errors = []; // assume no errors at first
+            if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+            if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+            return returnErrors ? errors : (errors.length == 0);
+        }
+        function displayPurchase() {
+            if (isNonNegInt(quantity_form.quantity_textbox.value)) {
+                document.write(`Thank you for ordering ${quantity_form.quantity_textbox.value} things!`);
             } else {
                 alert('Please enter a valid quantity')
             }
