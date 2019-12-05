@@ -94,7 +94,7 @@ app.get('/purchase', function (request, response, _next) { //get data from /purc
         request.query["validQuantities"] = validQuantities; // request the query for validQuantities
         request.query["validPurchases"] = validPurchases; // request the query for validPurchases
         console.log(request.query); // log the query into the console
-        response.redirect('./invoice.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
+        response.redirect('./form.html?' + qs.stringify(request.query)); // redirect to the form again, keeping the query that they wrote
     }
 }
 );
@@ -114,7 +114,7 @@ app.get('/purchase', function (request, response, _next) { //get data from /purc
 */
 
 
-app.post("registration.html", function (request, res) {
+app.post("/register", function (request, response) {
 
     var errors = []; //create an array for errors
 
@@ -184,7 +184,7 @@ app.post("registration.html", function (request, res) {
         request.query.email = request.body.email;
 
         request.query.errors = errors.join(';');
-        response.redirect('./register' + qs.stringify(request.query))
+        response.redirect('./registration.html?' + qs.stringify(request.query))
     }
 
     //add errors to querystring

@@ -45,5 +45,5 @@ var services =
 ];
 
 if(typeof module != 'undefined') {
-  module.exports.services = services;
+  module.exports = services;
 }

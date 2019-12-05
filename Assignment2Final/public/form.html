@@ -89,9 +89,9 @@
                     <td><img src = "./images/${services[i].image}"><br>${services[i].type}</td>
                     <td>\$${services[i].price}</td>
                     <td>
-                        <label id="qtyTextbox${i}_label"}>Quantity</label>
+                        <label id="services.service${i}_label"}>Quantity</label>
                         <br>
-                <input type="text" id = "htmlform" placeholder="0" name="qtyTextbox${i}" size="1" onkeyup="checkQuantityTextbox(this);">
+                <input type="text" id = "htmlform" value="${services[i].default}" name="qtyTextbox${i}" size="1" onkeyup="checkQuantityTextbox(this);">
             </td>
     </tr>
     `);
