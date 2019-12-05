@@ -5,7 +5,7 @@ var app = express(); // Create an object with express
 var fs = require('fs'); //require a file system from node
 var myParser = require("body-parser"); //needed to make form data to be available in request.body
 //var services = require('./public/service_data.js'); // location of services
-const services = require('./public/service_data.js.js'); //keep service_data constant
+const services = require('./public/service_data.js'); //keep service_data constant
 var filename = "user_data.json"; //location of user reg data
 //var user_quantity_data; // hold quantity variables until invoice is displayed
 
@@ -35,7 +35,7 @@ app.post("/login.html", function (request, response) { //Lab14
         if (users_reg_data[newUsername].password == request.body.password) {  //does password match username?
             request.query.username = newUsername;
             console.log(request.query.name);
-            response.redirect('/checkout.html?' + qs.stringify(request.query)); //send query to checkout
+            response.redirect('/invoice.html?' + qs.stringify(request.query)); //send query to invoice
             return;
         } else {
             errors.push = ('Invalid Password');
@@ -167,12 +167,13 @@ app.post("registration.html", function (request, res) {
     }
 
     //https://www.w3resource.com/javascript/form/email-validation.php
-    //if data is valid, redirect checkout
+    //if data is valid, redirect invoice
+    
 
     if (errors.length == 0) {
         console.log('Error Free');
         request.query.username = regUser;
-        res.redirect('./checkout.html?' + qs.stringify(request.query))
+        res.redirect('./invoice.html?' + qs.stringify(request.query))
     }
     if (errors.length > 0) {
         console.log(errors)

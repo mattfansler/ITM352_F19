@@ -89,6 +89,9 @@
       </script>
       <script>
         /*Calculating the tax, discount, and total*/
+        // Computes tax 
+        var tax_rate = 0.04 //Hawaii Tax Rate
+                            var tax = subtotal * tax_rate;
   // Computes Discount
   if (subtotal >= 100) {
                             var discount = 15
@@ -112,7 +115,7 @@
         </td>
       </tr>
       <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span>
+        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 4%</span>
         </td>
         <td width="54%">$
           <script>document.write(tax.toFixed(2))/*writing the tax to 2 decimal places*/</script>
