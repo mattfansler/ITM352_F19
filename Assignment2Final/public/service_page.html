@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="./service_data.js"> //uses get request
+    </script>
+    <script>
+
+        function checkQuantityTextbox() {
+            errs_array = isNonNegInt(qtyTextbox.value, true);
+            qty_textbox_message.innerHTML = errs_array.join(',');
+        }
+        function isNonNegInt(q, sendArrayBack = false) {
+            errors = []; // assume no errors at first
+            if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+            if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+            return sendArrayBack ? errors : (errors.length == 0);
+        }
+        function displayPurchase() {
+            if (isNonNegInt(quantity_form.qtyTextbox.value)) {
+                document.write(`Thank you for ordering ${quantity_form.qtyTextbox.value} things!`);
+            } else {
+                alert('Please enter a valid quantity')
+            }
+
+        }
+
+
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Services</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"rel="stylesheet"> 
+    <link rel="stylesheet" href="form-style.css">
+</head>
+<header>
+    <h1>Magic Carpet Rides</h1>
+</header>
+<div><main>
+<body>
+    <form name="quantity_form" action="/form.html" method="GET">
+        <table cellpadding="10" border="1" bgcolor="#D2B48C">
+            <tr>
+                <th>Item #</th>
+                <th>Service</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            <script>
+//For every service in the array, write the service number, display its image and name, and list price
+                
+                for (i = 0; i < services.length; i++) { 
+                /*for every service in the service_data, display the item number, image, type, and price for each service in the table*/
+                    document.write(`
+                <tr>
+                   <td>${i + 1}</td>
+                    <td><img src = "./images/${services[i].image}"><br>${services[i].service}</td>
+                    <td>\$${services[i].price}</td>
+                    <td>${services[i].description}</td>
+                    <td>${services[i].description2}</td>
+    </tr>
+    `);
+    
+                }
+            </script>
+
+        </table>
+        <input type="submit" value="Purchase">
+
+    </form>
+</main></div>
+</body>
+<br>
+<footer>
+ <h1>Don't drink and drive and stay alive</h1>
+</footer>
+</html>

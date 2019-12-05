@@ -1,0 +1,15 @@
+/*Kelsey Ann Kimura: Login CSS*/
+/*This is the css for the login page*/
+
+form {
+    display: inline-block;
+    background-color: tan;
+    border: ivory;
+    border-style: solid;
+    border-width: 5px;
+
+}
+body{
+    font-family:'Open Sans',sans-serif; /*font is Open-Sans*/
+    background: url(./images/background.jpg); /*Background image is from the ./public/images folder*/
+}
