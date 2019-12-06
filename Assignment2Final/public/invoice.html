@@ -1,157 +1,148 @@
-<script src="./service_data.js"> //uses get request from ./service_data.js
-</script>
-
-<script>
-//if the login name exists, get the username
-//else if registration name exists, get registration username
-//else redirect to login page
-
-// get the query string values from form post
-  let params = (new URL(document.location)).searchParams; // searching for the parameters in a new URL document location
-  GET = {}; //GET is an empty object
-  params.forEach(function (value, key) { GET[key] = value }); // the value is equal to the object of GET
-
-
-  
-  window.onload = function () { //alert user of completed purchase
+<script src="./service_data.js"> 
+    //GET request is used from service_data.js
+    </script>
+    <script>
+      //Author: Joshua Jerome and Matthew Fansler
+      //Source: Invoice1_1, Assignment 1 invoice
+      //Below is the invoice page. The following conatians validation functions that represent the users quantities selected, displays, minimum miles, totaled with tax, and price.
     
-  
-    if (params.has('username')) { //if the parameters has the username variable
-      alert('Thank you for your purchase ' + params.get('username')); //create an alert
-    }
-    //if username detected, create alert and redirect to login page
-    else { //if else
-      alert('Please login.'); //create alert to log in
-      window.location='/login.html' + window.location.search; //redirect to login page
-    }
-  }
-
-  subtotal = 0; //subtotal variable is equal to 0
-
-</script>
-
-<!DOCTYPE html>
-<html lang="en">
-<!-- Creating the Table HTML for the Invoice - borrowed from WOD Invoice 2 -->
-<head>
-  <link rel="stylesheet" href="form-style.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Invoice</title>
-</head>
-<style>
-  /*Making color of the text in the div ivory*/
-  div {
-    color: ivory;
-  }
-</style>
-
-<body>
-  <script>
-
-    user = GET[`username`];
-    document.write(`
-    <h1>See you soon, ${user}!</h1>
-  `)
-  </script>
-  <br>
-  <table border="2" align="center" bgcolor="#D2B48C">
-    <tbody>
-      <tr>
-        <th style="text-align: center;" width="43%">Item</th>
-        <th style="text-align: center;" width="11%">quantity</th>
-        <th style="text-align: center;" width="13%">price</th>
-        <th style="text-align: center;" width="54%">extended price</th>
-      </tr>
-      <script>
-        for (i = 0; i < services.length; i++) { // when variable i is equal to 0, is less than the product data length, and i increases by 1
-          qty = GET[`qtyTextbox${i}`]; // variable qty is equal to what node.js GETs from the quantity value entered in the form
-          if (qty > 0) {
-            var extended_price = services[i].price * qty // extended price is equal to the price of given product "i" in the array times quantity requested
-            var subtotal = extended_price + subtotal // makes a running subtotal, is equal to the extended_price plus whatever running subtotal is at that point
-            //writing in the document the product name, price, and price*quantity in the table for every product[i] in the array
-            document.write(`
-                  <tr>
-                    <td width="43%">${services[i].service}</td>
-                    <td align="center" width="11%">${qty}</td>
-                    <td width="13%">\$${services[i].price}</td>
-                    <td width="54%">\$${extended_price}</td>
-                  </tr>
-            `);
-          }
+    // Checks the parameters in new URL document location
+    // Searches if log in exists, or gets the new username from registration, if not sends user back to log in
+      let params = (new URL(document.location)).searchParams; 
+      GET = {}; 
+      params.forEach(function (value, key) { GET[key] = value }); //GET represents the object
+    
+      window.onload = function () { //If the username is valid, an alert for sucessful purchase will send
+        if (params.has('username')) { //Checks for username variable in parameters
+          alert('Thank you for your purchase ' + params.get('username'));
         }
-      </script>
-      <script>
-        /*Calculating the tax, discount, and grandtotal*/
-        // Computes tax 
-        var tax_rate = 0.04 //Hawaii Tax Rate
-                            var tax = subtotal * tax_rate;
-  // Computes Discount
-  if (subtotal >= 100) {
-                            var discount = 15
-                        }
-                        else if (subtotal >= 50) {
-                            var discount = 7
-                        }
-                        else if (subtotal < 50) {
-                            var discount = 0
-                        }
-                        // Compute grand total 
-                        var grandtotal = subtotal + tax - discount;  // total is equal to sum of tax, subtotal, and discount
-      </script>
-      <tr>
-        <td colspan="4" width="100%">&nbsp;</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-        <td width="54%">$
-          <script>document.write(subtotal)/*writing the subtotal*/</script>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 4%</span>
-        </td>
-        <td width="54%">$
-          <script>document.write(tax.toFixed(2))/*writing the tax to 2 decimal places*/</script>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Discount</span></td>
-        <td width="54%">$
-          <script>document.write(discount)/*writing the discount*/</script>
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-        <td width="54%"><strong>$
-            <script>document.write(grandtotal.toFixed(2))/*writing the total to 2 decimal places*/</script></strong></td>
-      </tr>
-
-    </body>
-  </table>
-  <br>
-  <form name="quantity_form" action = "/confirmation.html?" + document.location.search "method="GET" align="center">
-    <input type="submit" value="Submit">
-  </form>
-  <script>
-  quantity_form.action = "/confirmation.html" + document.location.search;
-  </script>
-    <div>
-      <br><b>
-        DISCOUNT POLICY
-        <br>
-        Spend over $100 and save $15
-        <br>
-        Spend over $50 and save $7
-        <br>
-      </b> </div>
-    </div>
+        else { //Sends alert and redirects user to log in if username is valid
+          alert('Please log in.'); //Alert to login
+          window.location='/login.html' + window.location.search; //Redirect to login 
+        }
+      }
+      subtotal = 0; //States variable is equal to 0
+    </script>
+    <!-- Below is the invoice table, sourced from Invoice1_1 (Port example) -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <link rel="stylesheet" href="form-style.css">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Invoice</title>
+    </head>
     <style>
-    div{
-      text-align:center;
-    }
+      div {
+        color: rgb(254, 251, 249);
+      }
     </style>
-</body>
-
-</html>
+    
+    <body>
+      <script>
+    
+        user = GET[`username`];
+        document.write(`
+        <h1>See you soon, ${user}!</h1>
+      `)
+      </script>
+      <br>
+      <table border="2" align="center" bgcolor="#D2B48C">
+        <tbody>
+          <tr>
+            <th style="text-align: center;" width="33%">Item</th>
+            <th style="text-align: center;" width="22%">quantity</th>
+            <th style="text-align: center;" width="15%">price</th>
+            <th style="text-align: center;" width="57">extended price</th>
+          </tr>
+          <script> //Displays the Item, quantity, price, and extended price in invoice table
+            for (i = 0; i < services.length; i++) { //Increases i by 1 when variable i is equal to 0
+              qty = GET[`qtyTextbox${i}`]; 
+              if (qty > 0) { // Using GET qty is equal to what the value entered by user, in order form
+                var extended_price = services[i].price * qty // Calculates exteneded price by using the quantity multipled by specific service i/price
+                var subtotal = extended_price + subtotal //Subtotal with enxtended price
+                //Below writes the service name, price, price mutlpied by quantity for all services (i)
+                document.write(`
+                      <tr>
+                        <td width="43%">${services[i].service}</td>
+                        <td align="center" width="11%">${qty}</td>
+                        <td width="13%">\$${services[i].price}</td>
+                        <td width="54%">\$${extended_price}</td>
+                      </tr>
+                `);
+              }
+            }
+          </script>
+          <script>
+            //Calculates the tax, along with the discounted rate, based off of Hawaii tax
+            var tax_rate = 0.04 //Hawaii Tax Rate
+                                var tax = subtotal * tax_rate;
+      // Calculates the discount
+      if (subtotal >= 100) {
+                                var discount = 15
+                            }
+                            else if (subtotal >= 50) {
+                                var discount = 7
+                            }
+                            else if (subtotal < 50) {
+                                var discount = 0
+                            }
+                            
+                            var grandtotal = subtotal + tax - discount; // Calculates grand total  
+          </script>
+          <tr>
+            <td colspan="4" width="100%">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$
+              <script>document.write(subtotal)</script>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 4%</span>
+            </td>
+            <td width="54%">$
+              <script>document.write(tax.toFixed(2))</script>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Discount</span></td>
+            <td width="54%">$
+              <script>document.write(discount)</script>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+            <td width="54%"><strong>$
+                <script>document.write(grandtotal.toFixed(2))</script></strong></td>
+          </tr>
+    
+        </body>
+      </table>
+      <br>
+      <form name="quantity_form" action = "/confirmation.html?" + document.location.search "method="GET" align="center">
+        <input type="submit" value="Submit">
+      </form>
+      <script>
+      quantity_form.action = "/confirmation.html" + document.location.search;
+      </script>
+        <div>
+          <br><b>
+            DISCOUNT POLICY
+            <br>
+            Spend over $100 and save $15
+            <br>
+            Spend over $50 and save $7
+            <br>
+          </b> </div>
+        </div>
+        <style>
+        div{
+          text-align:center;
+        }
+        </style>
+    </body>
+    
+    </html>

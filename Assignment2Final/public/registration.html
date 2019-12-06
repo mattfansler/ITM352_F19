@@ -1,35 +1,26 @@
+<script>
+    //Authors: Joshua Jerome and Matthew Fansler
+    //Source: Lab 13, Assignment1, htmldoctor.com, W3schools.com
+    //Below is the Registration form, which connects to the invoice from the log in page
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <script>
-
-        // get the query string values from form submission (Lab13 order_page)
-        // From Assignment1_DesignExamples Asssignment1_2file products_display.html
-        let params = (new URL(document.location)).searchParams; //params = search parameters from a NEW URL 
-
-        // Creating function window.onload so when the page is loading, it checks to make sure there is a quantity written and that the quantities in textbox are valid
-        //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
-
-        window.onload = function () { // creating the function for window.onload
-            //Check if we're getting redirected from the server because of an error
-            if (params.has('errors')) { //if params has invalid registration data
-
-                // Put the original data back into the textboxes
-                //put values of query string into boxes
-                Register['name'].value = params.get('name');
+    <script> //Sourced from Lab13 order_page (query string) and Assignment1 order_page.
+        let params = (new URL(document.location)).searchParams; //Using Params to get paramters from the URL
+        window.onload = function () { //Using Window.onload checks valid quantities in the textbox and if quantities exist
+            if (params.has('errors')) { //Check if an error is redirecting the server by the function
+                // If Pramas registration data is incorrect then textboxes will contain starting data
+                Register['name'].value = params.get('name');  //Query string values = boxes
                 Register['username'].value = params.get('username');
                 Register['password'].value = params.get('password');
                 Register['pswd'].value = params.get('pswd');
                 Register['email'].value = params.get('email');
 
-                //do for the rest of register form
-                //get errors, indicate them on form
-                //if there is a registration error, put up an alert
-                alert('Fix the following errors: \n' + params.get('errors'));
+                alert('Fix the following errors: \n' + params.get('errors')); //If a registration error exists, an alert will send
             }
         }
-
     </script>
 
     <meta charset="UTF-8">
@@ -41,35 +32,30 @@
 
 <body>
     <div>
-        <!-- //Creating the login form*/
-/*Help from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
-        <!-- Help from https://www.w3schools.com/howto/howto_css_login_form.asp -->
-        <!-- Code for Maximum Length of Text: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text -->
+        <!-- Refrenced from http://html5doctor.com/html5-forms-input-types/ & https://www.w3schools.com/howto/howto_css_login_form.asp --->
+        <!-- Below is Registration form and the requirements for entering password, username, and email, after being passed through by the log in-->
+        <script>
+            //The following form cointains gaurds and registration validations that prevent error data
+        </script>
         <form name="register" method="POST" action='register'>
             Registration Page <br> <br>
             <div class="container">
                 <label for="name"><b>Name</b></label>
-                <input type="text" name="name" maxlength="30" onkeyup="" required><br>
-                <label for="namelabel" id="namelabel">Please enter a name</label>
+                <input type="text" name="name" maxlength="30" onkeyup="" required>
                 <br>
                 <label for="username"><b>Username</b></label>
                 <input type="text" id="username" name="username" onkeyup="" minlength="4" maxlength="10" required>
                 <br>
-                <label for="userlabel" id="userlabel">Please enter a username</label>
-                <br>
                 <label for="password"><b>Password</b></label>
-                <input type="password" name="password" onkeyup="" minlength="6" required><br>
-                <label for="pswdlabel" id="pswdlabel">Please enter a password</label>
+                <input type="password" name="password" onkeyup="" minlength="6" required>
                 <br>
-                <label for="pswd"><b>Confirm Password</b></label> onkeyup = "checkPassword()";
-                <input type="password" name="pswd" onkeyup="" required><br>
-                <label for="pswdlabel" id="pswdlabel">Please type your password again</label>
+                <label for="pswd"><b>Confirm Password</b></label>
+                <input type="password" name="pswd" onkeyup="" required>
                 <br>
                 <label for="email"><b>Email Address</b></label>
                 <input type="email" id="email" name="email" onkeyup="emaillowercase()" required><br>
-                <label for="emaillabel" id="emaillabel">Please enter a email</label>
                 <br>
-                <input type="submit" name="submit" value="Register">
+                <input type="submit" name="submit" value="Register" onclick="checkpassword()">
             </div>
         </form>
         <script>
