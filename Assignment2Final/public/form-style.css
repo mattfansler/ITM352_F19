@@ -1,27 +1,26 @@
 /* Image Specifications */ 
 img{
-    height:200px; /*height for all images is 200px*/
-    width:200px; /*width for all images is 200px*/
+    height:400px; 
+    width:400px; 
 }
 
-/* Styling the services display */
+/* Services Display */
 main{
-    display: flex; /*set flex container on items, how item will grow/shrink in container*/
-    flex-flow: row wrap; /*will wrap items in a row*/
-    justify-content: space-around; /*browser distributes items so space around objects are even */
-    color: ivory; /*color of text is ivory*/
+    display: flex; 
+    flex-flow: row wrap; 
+    justify-content: space-around; 
+    color: ivory; 
 }
 
-/*Setting css for the body*/
-/* Font from BrowserHistory2*/
+/* Body */
 body{
-    background: url(./images/background.jpg); /*Background image is from the ./public/images folder*/
+    background: url(./images/background.jpg); /*Background image: ./public/images folder */
     font-family:'Open Sans',sans-serif; /*font is Open-Sans*/
 }
 
 /* Typography */
 
-h1,h2{ /*For text in the <h1> and <h2> headers*/
-    color: ivory; /*text color is ivory*/
-    text-align: center /*align text to center*/
+h1,h2{ /* For text in the <h1> and <h2> headers */
+    color: ivory; 
+    text-align: center 
 }
