@@ -173,7 +173,7 @@ app.post("/register", function (request, response) {
     if (errors.length == 0) {
         console.log('Error Free');
         request.query.username = regUser;
-        res.redirect('./invoice.html?' + qs.stringify(request.query))
+        response.redirect('./invoice.html?' + qs.stringify(request.query))
     }
     if (errors.length > 0) {
         console.log(errors)

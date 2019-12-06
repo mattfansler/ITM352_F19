@@ -1,8 +1,7 @@
-<script src="./service_data.js"> //uses get request from ./product_data.js
+<script src="./service_data.js"> //uses get request from ./service_data.js
 </script>
 
 <script>
-//let params = (new URL(document.location)).searchParams; // searching for the parameters in a new URL document location
 //if the login name exists, get the username
 //else if registration name exists, get registration username
 //else redirect to login page
@@ -14,19 +13,15 @@
 
 
   
-  window.onload = function () { //when the page finishes loaded
-    //create alert for successful purchase if username and registration data is valid
-    //should check if have valid username
-    //if have valid username, use that info to get stuff about them
-    //if have username, go get name
-    //if dont have username, redirect to login
-
+  window.onload = function () { //alert user of completed purchase
+    
+  
     if (params.has('username')) { //if the parameters has the username variable
-      alert('Thank you for your purchase ' + params.get('name')); //create an alert
+      alert('Thank you for your purchase ' + params.get('username')); //create an alert
     }
     //if username detected, create alert and redirect to login page
     else { //if else
-      alert('Please log in.'); //create alert to log in
+      alert('Please login.'); //create alert to log in
       window.location='/login.html' + window.location.search; //redirect to login page
     }
   }
@@ -55,9 +50,9 @@
 <body>
   <script>
 
-    usr = GET[`name`];
+    user = GET[`username`];
     document.write(`
-    <h1>Hello there, ${usr}!</h1>
+    <h1>See you soon, ${user}!</h1>
   `)
   </script>
   <br>
@@ -88,7 +83,7 @@
         }
       </script>
       <script>
-        /*Calculating the tax, discount, and total*/
+        /*Calculating the tax, discount, and grandtotal*/
         // Computes tax 
         var tax_rate = 0.04 //Hawaii Tax Rate
                             var tax = subtotal * tax_rate;

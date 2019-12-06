@@ -5,18 +5,15 @@
     <script src="./service_data.js"> //uses get request
     </script>
     <script>
-        // get the query string values from form submission (Lab13 order_page)
-        // From Assignment1_DesignExamples Asssignment1_2file products_display.html
-        let params = (new URL(document.location)).searchParams; //params is a variable, 
+        
+       
+        let params = (new URL(document.location)).searchParams; // From Assignment1_DesignExamples Asssignment1_2file products_display.html
 
-        // Creating function window.onload so when the page is loading, it checks to make sure there is a quantity written and that the quantities in textbox are valid
+        
         //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
-
-        window.onload = function () { // creating the function for window.onload
-            //Check if we're getting redirected from the server because of an error
-            if (params.has('hasValidQuantities')) { //if params has a valid quantity
-                //if there is a quantity error, put up an alert
-                if (params.get('hasValidQuantities') == 'false') { //if there is an invalid quantity
+        window.onload = function () { // creating the function for window.onload 
+            if (params.has('validQuantities')) { //if params has a valid quantity
+                if (params.get('validQuantities') == 'false') { //if there is an invalid quantity
                     alert('Please enter valid quantities.'); //if there is an invalid quantity error, put up an alert to enter a valid number
                 }
                 if (params.get('hasPurchases') == 'false') {    // if there are no quantities listed
@@ -61,7 +58,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Order Form</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    
 </head>
 <header>
     <h1>Magic Carpet Rides</h1>
@@ -72,7 +69,7 @@
 
         <body>
             <form name="quantity_form" action="/purchase" method="GET">
-                <table cellpadding="10" border="1" bgcolor="#D2B48C">
+                <table cellpadding="25" border="1" bgcolor="#7fa1d1">
                     <tr>
                         <th>Item #</th>
                         <th>Services</th>
@@ -86,7 +83,7 @@
                             document.write(`
                 <tr>
                    <td>${i + 1}</td>
-                    <td><img src = "./images/${services[i].image}"><br>${services[i].type}</td>
+                    <td><img src = "./images/${services[i].image}"><br>${services[i].service}</td>
                     <td>\$${services[i].price}</td>
                     <td>
                         <label id="services.service${i}_label"}>Quantity</label>
