@@ -5,15 +5,19 @@
 var fs = require('fs');
 var express = require('express'); // server requires Express to run
 const querystring = require('querystring'); // requiring a query string - string of whatever is written in textbox
-const performer_data = require('./public/performer_data'); //using data from performer_data.js
+var performer_data = require('./public/performer_data'); //using data from performer_data.js
 var app = express(); //run the express function and start express
 var parser = require('body-parser');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
+app.use(session({secret: "shhh"})); 
 app.use(parser.urlencoded({ extended: true })); // decode, now request.body will exist
-
+app.user(parser.json());
 //Login Server code from Lab 14
 
-var filename = 'user_data.json' //loading the user_data.json file
+var filenameU = 'user_data.json' //loading the user_data.json file
 
 if (fs.existsSync(filename)) { //check to see if file exists
   stats = fs.statSync(filename);
