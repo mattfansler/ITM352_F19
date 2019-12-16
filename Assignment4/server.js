@@ -8,14 +8,9 @@ const querystring = require('querystring'); // requiring a query string - string
 const performer_data = require('./public/performer_data'); //using data from performer_data.js
 var app = express(); //run the express function and start express
 var parser = require('body-parser');
-var session = require('body-parser');
-var cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
-app.use(session({secret: "shhh"}));
 
 app.use(parser.urlencoded({ extended: true })); // decode, now request.body will exist
-app.use(parser.json());
+
 //Login Server code from Lab 14
 
 var filename = 'user_data.json' //loading the user_data.json file
