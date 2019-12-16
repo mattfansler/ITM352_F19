@@ -11,6 +11,7 @@ var parser = require('body-parser');
 var session = require('body-parser');
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
 app.use(session({secret: "shhh"}));
 
 app.use(parser.urlencoded({ extended: true })); // decode, now request.body will exist

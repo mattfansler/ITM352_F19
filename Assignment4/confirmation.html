@@ -1,0 +1,66 @@
+<!-- Author: J. Jerome -->
+
+<script src="./performer_data.js"> //uses get request from ./performer_data.js
+</script>
+
+
+<script>
+    // get the query string values from form post
+    let params = (new URL(document.location)).searchParams; // searching for the parameters in a new URL document location
+    GET = {}; //GET is an empty object
+    params.forEach(function (value, key) { GET[key] = value }); // the value is equal to the object of GET
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        usr = GET[`name`];
+        document.write(`
+    <h1>Thank you for your purchase!</h1>
+  `);
+    </script>
+    <h2> Call (808)-555-HELP for any questions </h2>
+    <img src="./images/concert.jpg">
+    <br>
+    <br>
+    <form name="quantity_form" action="/performer_page.html" method="GET">
+        <input type="submit" value="Back to catalogue">
+</body>
+
+</html>
+<style>
+    /*Setting css for confirmation page*/
+    /*css based on SmartphoneProducts2/SmartphoneProducts3*/
+
+    /* setting dimensions for the image*/
+    img {
+        height: 400;
+        /*height is 400px*/
+        width: 200px;
+        /*width is 200px*/
+    }
+
+    /*setting the style for the body of the page (alignment and color)*/
+    /* Font from BrowserHistory2*/
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        text-align: center;
+        align-content: center;
+        color: ivory;
+        background-color: tan;
+        background: url(./images/background.jpg);
+    }
+
+    
+</style>
