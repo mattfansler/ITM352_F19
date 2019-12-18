@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<header>
+    <h1>Party Starters</h1>
+</header>
+
+<body>
+    <ul>
+        <li><a href="./search1.html">Search</a></li>
+        <li><a href="./prospects.html">Cart</a></li>
+    </ul>     
+
+    <div>
+        <!-- //Creating the login form*/
+/*Help from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
+        <!-- Help from https://www.w3schools.com/howto/howto_css_login_form.asp -->
+        <!-- Code for Maximum Length of Text: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text -->
+    <center> 
+           <form name="search1" method="POST" action="/search_service">
+            <br> <br>
+            <div class="container">
+                <label for="eventSize" required><b>How big is the event?</b></label>
+                <br>
+                <!-- Code for Dropdown Menu: https://www.w3schools.com/html/html_form_elements.asp -->
+                <select name="eventSize" id="eventSize" size="1">
+                    <option name="eventSize" value="select_eventSize">Size of Event</option>
+                    <option name="Large Event" value="large">5,000+ Attendees</option>
+                    <option name="Medium Event" value="mid">1,000-5,000 Attendees</option>
+                    <option name="Small Event" value="small">Less than 1,000 Attendees</option>
+                    
+            </select>
+                <br>
+                <br>
+                <input type="submit" name="submit" value="search">
+            </div>
+        </form>
+    </center>
+    </div>
+</body>
+
+</html>

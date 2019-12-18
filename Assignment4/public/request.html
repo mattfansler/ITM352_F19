@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script>
+
+let params = (new URL(document.location)).searchParams; //params is a variable, 
+GET = {}; //Create GET object
+params.forEach(function (value, key) { GET[key] = value }); 
+
+
+window.onload = function(){
+
+
+
+    if (params.has('request_errors')){
+        request_form['date'].value = params.get('date');
+        request_form['time'].value = params.get('time');
+        request_form['location'].value = params.get('location');
+        request_form['request_details'].value = params.get('request_details');
+    }
+
+}
+
+
+//Data validation
+//https://www.codexworld.com/how-to/check-given-date-is-greater-than-today-javascript/
+
+function checkdate() {
+    var d = new Date(date.value);
+    console.log(date);
+    var t = new Date()
+    console.log(t + d);
+    if(d <= t){
+        console.log('unavailable');
+        document.getElementById("date_error").innerHTML =  '<font color="red">Please select a date in the future.</font>'
+    }
+    else{
+        document.getElementById("date_error").innerHTML = " "
+
+    }
+}
+
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<header>    
+    <ul>
+    <li><a href="./search1.html">Search</a></li>
+    <li><a href="./prospects.html">Cart</a></li>
+    </ul>    
+</header>
+<body>
+ 
+<br>
+<br>
+<center>
+<script>
+
+    name = GET[`name`];
+    service_name = GET[`service_name`]
+    document.write(`
+    <h2> Hello, ${name}
+        Please fill out event details
+    `)
+    </script>
+    <br>
+</center>
+    <Bold><center>Give us the Deets</center></Bold>
+<br>
+    <center>
+    <form name="request_form" method="POST" action="./submit_request">
+        <label for="date">Day of the Event</label>
+        <label for="date_error" id="date_error" name="date_error"></label>
+        <br>
+        <input type="date" id="date" name="date" onclick="checkdate()" style="width:150px;" required>
+        <br>
+        <br>
+        <label for="time">Time</label>
+        <br>
+        <input type="time" id="time" name="time" min="0:00" max="24:00" style="width:150px;" required>
+        <br>
+        <br>
+        <label for="end">Length of Event</label>
+        <br>
+        <input type="number" id="hours" name="hours" min=1 placeholder="Hours, including set up" style="width:150px;" required>
+        <br>
+        <br>
+        <label for="request_details">Additional Details</label>
+        <br>
+        <input type="text" id="request_details" placeholder="What is the best way to contact you?" name="request_details" style="width:220px;">
+        <br>
+
+        <input type="submit" id="submit_request" name="submit_request">
+    </form>
+</center>
+</body>
+
+</html>

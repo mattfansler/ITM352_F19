@@ -1,75 +1,493 @@
-// Author: J. Jerome
-// https://www.w3schools.com/jsref/jsref_tolowercase.asp
-// Template based on server from Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
+//Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
 
 var fs = require('fs');
-var express = require('express'); // server requires Express to run
-const querystring = require('querystring'); // requiring a query string - string of whatever is written in textbox
-var performer_data = require('./public/performer_data'); //using data from performer_data.js
-var app = express(); //run the express function and start express
-var parser = require('body-parser');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
+var express = require('express'); //Require Express
+var app = express(); //initialize express
+const querystring = require('querystring'); // requiring querystring
+var parser = require('body-parser'); //Require body-parser
+var cookieParser = require('cookie-parser'); //Require body-parser
+var session = require('express-session'); //Require express-session
+
+
 
 app.use(cookieParser());
-app.use(session({secret: "shhh"})); 
-app.use(parser.urlencoded({ extended: true })); // decode, now request.body will exist
-app.user(parser.json());
-//Login Server code from Lab 14
 
-var filenameU = 'user_data.json' //loading the user_data.json file
+app.use(session({ secret: "ITM 352" }));
 
-if (fs.existsSync(filename)) { //check to see if file exists
-  stats = fs.statSync(filename);
+app.use(parser.urlencoded({ extended: true })); 
+app.use(parser.json());
 
-  console.log(filename + ' has ' + stats.size + ' characters');
 
-  data = fs.readFileSync(filename, 'utf-8') //user_data.json
+//Lab 14 Server
+var filename1 = 'user_data.json'; //loading the user_data.json file
+var filename2 = './public/service_data.json';//loading service_data.json file
+var filename3 = 'request_data.json'; //loading request_data.json file
 
-  users_reg_data = JSON.parse(data); //parse user_data to create users_reg_data
+if (fs.existsSync(filename1)) { //only open if file exists
+  stats1 = fs.statSync(filename1); //used to printout size of filename
+  stats2 = fs.statSync(filename2); //used to printout size of filename
+  stats3 = fs.statSync(filename3); //used to printout size of filename
 
-} else {
-  console.log(filename + ' does not exist!');
+  console.log(filename1 + ' has ' + stats1.size + ' characters'); //number of characters
+  console.log(filename2 + ' has ' + stats2.size + ' characters'); //number of characters
+  console.log(filename3 + ' has ' + stats3.size + ' characters'); //number of characters
+
+  user_data = fs.readFileSync(filename1, 'utf-8') //opens the filename1
+  service_data_json = fs.readFileSync(filename2, 'utf-8') //open filename2
+  request_data_json = fs.readFileSync(filename3, 'utf-8') //open filename2
+
+
+
+  users_reg_data = JSON.parse(user_data); //create object with JSON.parse()
+  service_data = JSON.parse(service_data_json); //create object with JSON.parse()
+  request_data = JSON.parse(request_data_json); //create object with JSON.parse()
+
+} else { //if file does not exist
+  console.log(filename1 + ' does not exist!'); //saying filename doesn't exist in console
 }
+
+app.post("/submit_request", function (req, res, next) {
+  req.query.date = req.body.date;
+  req.query.time = req.body.time;
+  req.query.request_details = req.body.request_details;
+  req.query.hours = req.body.hours;
+  req.session.request_details = req.query.request_details;
+  req.session.time = req.query.time;
+  req.session.date = req.query.date;
+  req.session.hours = req.query.hours;
+  req.query.request_details = req.body.request_details;
+
+
+
+  var request_errors = []; //to store all errors
+
+  if (request_errors.length == 0) { 
+    res.clearCookie('user'); // clear cookie if request is valid
+    
+    //landing page generator
+    pagestr = `  
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Request confirmed</title>
+      <link rel="stylesheet" href="main.css">
+  </head>
+<header>
+<ul>
+<li><a href="./search1.html">Search</a></li>
+<li><a href="./prospects.html">Cart</a></li>
+</ul>
+</header>  
+<body>
+  <div>
+    <h1>Thank you, your request is being processed</h1>
+    <h2>Performers should contact you within 24 hours to confirm booking</h3>
+    <center>Please call 808-555-HELP for any questions or concerns.</center>
+  </div>
+</body>
+</html>`;
+
+    res.send(pagestr); //display page
+
+  } else {
+    req.query.date = req.body.date;
+    req.query.location = req.body.location;
+    req.query.time = req.body.time;
+    req.query.hours = req.body.hours;
+    req.query.request_details = req.body.request_details; 
+    req.query.name = req.session.name;
+    req.query.email = req.session.email;
+    req.query.service_name = req.session.service_name;
+    req.query.request_errors = request_errors.join(';'); //join errors in querystring
+    res.redirect('./request.html?' + querystring.stringify(req.query)); 
+  }
+
+});
+
+app.get("/index.html", function (req, res, next) {
+  res.cookie('name', 'guest');
+  req.session.fav_service = [];  
+  req.session.add = [];
+  add_array = req.session.add;
+  next();
+});
+
+app.get("/", function (req, res, next) {
+  res.cookie('name', 'guest');
+  req.session.fav_service = [];
+  req.session.add = [];
+  add_array = req.session.add;
+  next();
+});
+
+
+app.get("/service_all.html", function (req, res) {
+  if (typeof req.cookies.name != 'undefined') {
+  } else {
+    res.redirect('/index.html');
+  }
+
+
+
+
+  console.log('service all', req.query);
+  pagestr = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <script>
+  async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrer: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return await response.json(); // parses JSON response into native JavaScript objects
+  }
+  </script>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Performers & Services</title>
+      <link rel="stylesheet" href="main.css">
+  </head>
+  <header>
+      <h1>Party Starters!</h1>
+  </header>
+</div>
+<ul>
+<li><a href="./search1.html">Search</a></li>
+<li><a href="./prospects.html">Cart</a></li>
+</ul> 
+
+<br>
+  <body>
+  <div><main>
+          <table cellpadding="10" border="0">`;
+
+  //Search table, display image, name and give the option to further explore services
+  for (i = 0; i < service_data.length; i++) {
+    if (req.query.eventSize == service_data[i].keyword) {
+      
+      pagestr += `
+                <form action="/service_single.html" method="GET">
+                  <tr>
+                  <td><img src="${service_data[i].image}"><br>
+                  ${service_data[i].name}
+                      
+                      <input type="hidden" name="service_index" value="${i}">
+                      <input type="submit" value="View Profile" name="${service_data[i].name}">
+
+                      <input type="radio" id="fav_service${i}" name="fav_service${i}" onclick="postData('add_to_fav', {'service_index': ${i},'add${i}': this.checked})">
+                      <label for="fav_service${i}" name="fav_service${i}" name="fav_service${i}">Add to Cart</label>
+                      </td>
+            
+                      
+      </tr>
+      </form>
+      `;
+    }
+
+  }
+
+  pagestr += `
+              </script>
+  
+          </table>
+  
+  </main></div>
+  </body>
+  <br>
+  <footer>
+  </footer>
+  </html>`;
+
+  res.send(pagestr);
+
+});
+
+app.get("/prospects.html", function (req, res) {  
+  /*fav_artist = req.session.fav_artist;
+  console.log(fav_artist);
+  */
+
+  if (typeof req.cookies.name != 'undefined') {
+  } else {
+    res.redirect('/index.html');
+  }
+
+  if (typeof add_array != 'undefined') {
+    if (add_array.length > 0) {
+      console.log(add_array);
+      pagestr = `
+  <!DOCTYPE html>
+  <html lang="en">`;
+
+      pagestr += `
+  <head>
+  <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Performers & Services</title>
+      <link rel="stylesheet" href="main.css">
+  </head>
+  <header>
+      <h1>Party Starters!</h1>
+  </header>
+  <ul>
+  <li><a href="./search1.html">Search</a></li>
+  <li><a href="./prospects.html">Cart</a></li>
+  </ul> 
+<br>
+  <div><main>
+  <body>
+          <table cellpadding="10" border="0" >`;
+
+      for (i = add_array.length - 1; i >= 0; i--) {
+        pagestr += ` 
+    <form action="/service_single.html" method="GET">
+      <tr>
+          <td><img src="${service_data[add_array[i]].image}"><br>${service_data[add_array[i]].name}
+          <br>
+          <input type="hidden" name="service_request" value="${service_data[add_array[i]].name}">
+          <input type="hidden" name="service_index" value="${service_data[add_array[i]].service_id}">
+          <input type="submit" value="View Profile" name="${service_data[add_array[i]].name}"></td>
+      </tr>
+      </form>`;
+      }
+
+      pagestr += ` 
+          </table>
+  </main></div>
+  </body>
+  <br>
+  <footer>
+   <h2>Party Starters</h2>
+  </footer>
+  </html>`;
+
+      res.send(pagestr);
+    } else {
+      pagestr = `
+  <!DOCTYPE html>
+  <html lang="en">`;
+
+      pagestr += `
+  <head>
+  <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Performers and Services</title>
+      <link rel="stylesheet" href="main.css">
+  </head>
+  <header>
+      <h1>Party Starters!</h1>
+  </header>
+  <ul>
+  <li><a href="./search1.html">Search</a></li>
+  <li><a href="./prospects.html">Cart</a></li>
+  </ul> 
+
+  <div><main>
+  <body>
+  <h2>Your cart is empty!</h2>
+  </main></div>
+  </body>
+  <br>
+  <footer>
+  </footer>
+  </html>`;
+
+      res.send(pagestr);
+    }
+  } else {
+    res.redirect('/index.html');
+  }
+});
+
+
+
+app.get("/service_single.html", function (req, res) {
+
+  if (typeof req.cookies.name != 'undefined') {
+  } else {
+    res.redirect('/index.html');
+  }
+
+  if (req.query.service_index !== undefined) {
+    console.log('single service page', req.query);
+    index = req.query.service_index;
+    
+
+
+    sav_service = req.session.sav_service;
+    if (req.query["sav_service" + index] != undefined) {
+      sav_service.push(index);
+      req.session.fav_service = sav_service;
+      console.log(req.session.fav_service);
+    }
+
+    pagestr = `
+    <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>${service_data[index].name}</title>
+        <link rel="stylesheet" href="main.css">
+    </head>  
+    <h1>Party Starters!</h1>
+    <ul>
+        <li><a href="./search1.html">Search</a></li>
+        <li><a href="./prospects.html">Cart</a></li>
+    </ul> 
+  
+  <body>
+<form action = '/request_service'>
+<div>
+        <h1>${service_data[index].name}</h1>
+        <br><img src="${service_data[index].image}">
+        <br>
+        <div><p>${service_data[index].description}</p></div>
+<input type="hidden" name="service_request" id="service_request" value="${index}">
+<input type="hidden" name="service_name" id="service_name" value="${service_data[index].name}">
+<input type="submit" value="Book Service">
+  </form> 
+  <br>
+        </div>
+</body>
+</html>`;
+    res.send(pagestr);
+  }
+  else {
+    res.redirect('service_all.html')
+  }
+});
+
+app.get("/request.html", function (req, res, next) {
+  //If user cookie is detected and user has logged in/registered, put registration info into a session
+  if (typeof req.cookies.user != 'undefined') {
+    req.session.email = req.query.email;
+    req.session.name = req.query.name;
+    req.session.service_name = req.query.service_name;
+    req.session.username = req.query.username;
+    email = req.session.email;
+    console.log(req.session.service_name);
+    console.log(req.session.username);
+    next();
+
+    //If the user has not logged in/registered, redirect user to the search page
+  } else {
+    res.redirect('/search1.html');
+  }
+
+});
+
+
+app.post("/add_to_fav", function (req, res) {
+  service_index = req.body.service_index;
+  console.log(req.body);
+  if (req.body["add" + service_index] != undefined) {
+    add = req.body["add" + service_index];
+    if (add == true) {
+      add_array.push(service_index);
+      console.log(add_array);
+    } else {
+      add_array.pop(service_index);
+      console.log(add_array);
+    }
+  }
+});
+
+
+//service name is put into a session when he/she is requested
+app.get("/request_service", function (req, res) {
+  req.session.service_name = req.query.service_name;
+  service_request = req.session.service_name;
+  console.log(req.session.service_name);
+  res.redirect('./login.html?' + querystring.stringify(req.query));
+
+});
 
 
 //Validation for the Login Information when Login Page is loaded
 app.post("/login.html", function (req, res) {
-  // Process login form POST and redirect to invoice page if ok, back to login page if not
+  // Process login form POST and redirect to request page if ok, back to login page if not
   //Code from Lab 14
-  var LogError = [];
   console.log(req.body);
+  var LogError = [];
   //To make username case insensitive
+  //toLowerCase function: https://www.w3schools.com/jsref/jsref_tolowercase.asp
   the_username = req.body.username.toLowerCase(); //username entered is case insensitive, assign to variable the_username
   if (typeof users_reg_data[the_username] != 'undefined') { //check if the username exists in the json data
     if (users_reg_data[the_username].password == req.body.password) { //make sure password matches exactly - case sensitive
-      req.query.username = the_username; //set to case insensitive variable
+      req.query.username = the_username; //adding the case insensitive username to the query
       console.log(users_reg_data[req.query.username].name); //logging the name to ensure if statement is working
       req.query.name = users_reg_data[req.query.username].name //adding the name for the registered user to the querystring
-      res.redirect('/invoice.html?' + querystring.stringify(req.query)); //keeping the querystring when redirecting to the invoice
+      req.query.email = users_reg_data[the_username].email; //add email to querystring
+      res.cookie('user', req.query.username);
+      res.redirect('/request.html?' + querystring.stringify(req.query)); //keeping the querystring when redirecting to the invoice
       return; //ending the if statement
-    } else{ // if the password does not match what is in the registration data for the given username
+    } else { // if the password does not match what is in the registration data for the given username
       LogError.push = ('Invalid Password'); //push login error for invalid password
       console.log(LogError); //console log error to check working
-      req.query.username= the_username; //add username to querystring
-      req.query.password=req.body.password; //add password to querystring
-      req.query.LogError=LogError.join(';'); //joining the login errors for the querystring
+      req.query.username = the_username; //add username to querystring
+      req.query.password = req.body.password; //add password to querystring
+      req.query.LogError = LogError.join(';'); //joining the login errors for the querystring
     }
   }
   else { //if username does not exist in registration data
     LogError.push = ('Invalid Username'); //push login error for invalid username
     console.log(LogError); //console log error to check working
-    req.query.username= the_username; //add username to querystring
-    req.query.password=req.body.password; //add password to querystring
-    req.query.LogError=LogError.join(';'); //joining login errors for querystring
+    req.query.username = the_username; //add username to querystring
+    req.query.password = req.body.password; //add password to querystring
+    req.query.LogError = LogError.join(';'); //joining login errors for querystring
   }
   res.redirect('/login.html?' + querystring.stringify(req.query)); //redirecting user to the login page with the querystring
 
 }
 );
 
-app.post("/register.html", function (req, res) {
-  // Process registration form POST and redirect to invoice if ok, back to registration page if not
+app.post("/search_service", function (req, res) {
+  //put the search into a querystring
+  req.query.eventSize = req.body.eventSize;
+  console.log(req.query.eventSize);
+
+  //If the no selection is made redirect back to search page
+  if (req.query.eventSize == 'select_eventSize') {
+    res.redirect('./search1.html');
+
+    //If a selection is made, the user is redirected to service_all.html with search results
+  } else {
+    res.redirect('./service_all.html?' + querystring.stringify(req.query)); //redirect to the service page
+  }
+});
+
+app.post("/search_service2", function (req, res) {
+  req.query.eventSize = req.body.eventSize;
+  console.log(req.query.eventSize);
+  if (req.query.eventSize == 'select_eventSize') {
+    res.redirect('./search1.html?');
+  } else {
+    res.redirect('./service_all.html?' + querystring.stringify(req.query)); //redirect to the service page
+  }
+});
+
+app.post("/submit_register", function (req, res) {
+  // Process registration form POST and redirect to artist search page if ok, back to registration page if not
   //validate registration data
 
   //to log what was entered in the textboxes
@@ -82,7 +500,7 @@ app.post("/register.html", function (req, res) {
   var passerrors = []; //to store password errors
   var confirmerrors = []; //to store confirm password errors
   var emailerrors = []; //to store email errors
-
+  var success = [];
 
   //make sure name is valid
   if (req.body.name == "") { //if nothing is written for the name
@@ -103,9 +521,9 @@ app.post("/register.html", function (req, res) {
     errors.push('Use Letters Only for Full Name') //push error to array
   }
 
-  //Username must be minimum of 3 characters and maximum of 10
+  //Username must be minimum of 4 characters and maximum of 10
   //Code for Validating Username Length: https://crunchify.com/javascript-function-to-validate-username-phone-fields-on-form-submit-event/
-  if ((req.body.username.length < 3)) { //if username is less than 3 characters, push an error
+  if ((req.body.username.length < 4)) { //if username is less than 4 characters, push an error
     usererrors.push('Username Too Short') //push to username errors array
     errors.push('Username Too Short') //push error to array
   }
@@ -113,50 +531,42 @@ app.post("/register.html", function (req, res) {
     usererrors.push('Username Too Long') //push to username errors array
     errors.push('Username Too Long') //push error to array
   }
-  //check if username exists
-  //toLowerCase function: https://www.w3schools.com/jsref/jsref_tolowercase.asp
-  var reguser = req.body.username.toLowerCase(); //make username user enters case insensitive
-  if (typeof users_reg_data[reguser] != 'undefined') { //if the username is already defined in the registration data
-    usererrors.push('Username taken') //push to username errors array
-    errors.push('Username taken') //push error to array
+  
+  var reguser = req.body.username.toLowerCase(); //make username case insensitive to prevent search errors
+  if (typeof users_reg_data[reguser] != 'undefined') { //if username is defined
+    usererrors.push('Username unavailable') //push to username errors array
+    errors.push('Username unavailable') //push error to array
   }
   //Check letters and numbers only
   //Code for validating letters and numbers only: https://www.w3resource.com/javascript/form/letters-numbers-field.php
   if (/^[0-9a-zA-Z]+$/.test(req.body.username)) { //if there are only letters and numbers, do nothing
   }
-  else { //if there are other things beside letters and numbers
-    usererrors.push('Letters And Numbers Only for Username') //push to username errors
-    errors.push('Letters And Numbers Only for Username') //push error to array
+  else { //if there are special characters 
+    usererrors.push('Please remove special characters from username') //push to username errors
+    errors.push('Please remove special characters from username') //push error to array
   }
 
   //check if password format is valid
-  //check if password is a minimum of 3 characters long
-  if ((req.body.password.length < 3)) { //if password length is less than 3 characters
+  //check if password is a minimum of 6 characters long
+  if ((req.body.password.length < 6)) { //if password length is less than 6 characters
     passerrors.push('Password Too Short') //push to password error array
     errors.push('Password Too Short') //push error to array
   }
   //check if password entered equals to the repeat password entered - make sure password is case sensitive
   if (req.body.password !== req.body.confirmpsw) { // if password equals confirm password
-    confirmerrors.push('Password Not a Match') //push to confirm password array
-    errors.push('Password Not a Match') //push error to array
+    confirmerrors.push('Passwords NOT a Match') //push to confirm password array
+    errors.push('Password NOT a Match') //push error to array
   }
 
-  //check if email is valid
-  //email validation code: https://www.w3resource.com/javascript/form/email-validation.php
+
+  //email validation https://www.w3resource.com/javascript/form/email-validation.php
   var regemail = req.body.email.toLowerCase(); // to make email case insensitive
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(regemail)) { 
-  //if in right email format: X@Y.Z
-  //X: user address can only contain letters, numbers, and "_" and "."
-  //Y: host machine can only contain letters, numbers, and "."
-  //Z: Z is the domain name which is either 2 or 3 letters such as “edu” or “tv”
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(regemail)) { //Criteria: only letters, numbers and _ in user address. and host machine, while domain name is limited to either 2 or 3 letters
   }
-  else { //if email doesn't follow above criteria
+  else { //Invalid input
     emailerrors.push('Invalid Email') //push to email errors array
     errors.push('Invalid Email') //push to errors array
   }
-
-
-
 
   if (nameerrors.length == 0) { //if no name errors
     console.log('no name errors!'); // to make sure if statement working
@@ -181,7 +591,7 @@ app.post("/register.html", function (req, res) {
     console.log('error:' + passerrors) //console log password errors
     req.query.passerrors = passerrors.join(';'); //joining password errors together
   }
-  
+
   if (confirmerrors.length == 0) { //if have no errors with password confirmation
     console.log('no confirm errors!'); //to make sure if statement working
   }
@@ -196,21 +606,30 @@ app.post("/register.html", function (req, res) {
   if (emailerrors.length > 0) { //if there is more than 1 error
     console.log('error:' + emailerrors); //console log email errors
     req.query.emailerrors = emailerrors.join(';'); //joining email errors together
-  } 
-  //if data is valid and no errors, save the data to the file and redirect to invoice
-  if (errors.length == 0) { //if there are no errors
-    console.log('none!'); //to double check if statement working
-    req.query.name = req.body.name; //put name into querystring
-    req.query.username = reguser; //put username in querystring
-    const {name, password, email, username } = req.body
-  
-    users_reg_data[username] = {
-      name, password, email
-    }
+  }
 
-    fs.writeFileSync('./user_data.json', JSON.stringify(users_reg_data));
-    
-    res.redirect('./invoice.html?' + querystring.stringify(req.query)) //redirect to the invoice
+  if (errors.length == 0) { //if there are no errors
+    success.push('Successful registration');
+    console.log(success);
+    req.query.username = reguser; //put username in querystring
+    req.query.name = req.body.name; //put name into querystring
+    req.query.email = req.body.email; //put email into querystring
+    req.query.service_name = req.session.service_name; //put artist name for form into querystring
+    req.query.success = success.join(';'); //put success into querystring
+    res.cookie('user', req.query.username);
+
+    // store information into a JSON file
+    users_reg_data[reguser] = {
+      name: req.body.name,
+      password: req.body.password,
+      email: req.body.email
+    };
+
+    fs.writeFileSync(filename1, JSON.stringify(users_reg_data));
+
+
+    //redirect to the services page
+    res.redirect('./login.html?' + querystring.stringify(req.query));
   }
   //add errors to querystring (for purpose of putting back into textbox)
   else { //if there is one or more errors
@@ -227,55 +646,8 @@ app.post("/register.html", function (req, res) {
 }
 );
 
-
-app.get('/purchase', function (req, res, next) { //getting the data from the form where action is '/purchase' 
-  console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.query)); // logging the date, IP address, and query of the purchase (quantities written in textboxes) into console
-
-  // Validating quantity data, go through each and check if good
-  // Done with help from Port
-  let GET = req.query; // GET is equal to getting the request from the query
-  console.log(GET); // putting the query that take from the form into the console
-  var hasValidQuantities = true; // empty textbox is assumed true - quantity assumed valid even before entering anything
-  var hasPurchases = false; //assume quantity of purchases are false (invalid) from the start
-  for (i = 0; i < performer_data.length; i++) { // for every product in the array, increasing by 1
-    q = GET['quantity_textbox' + i]; // q is equal to the quantity pulled from what is entered into the textbox
-    if (isNonNegInt(q) == false) { //if the quantity is not an integer
-      hasValidQuantities = false; //hasValidQuantities is false 
-    }
-    if (q > 0) { // if the quantity entered in textbox is greater than 0
-      hasPurchases = true; // hasPurchases is true - because there is a quantity greater than 0 entered in the textbox
-    }
-    console.log(hasValidQuantities, hasPurchases); // logging hasValidQuantities and hasPurchases into console to check validity (true or false)
-  }
-
-  // If it ok, send to invoice. if not, send back to the order form
-  qString = querystring.stringify(GET); //stringing the query together
-  if (hasValidQuantities == true && hasPurchases == true) { // if both hasValidQuantities and hasPurchases are true
-    res.redirect('./login.html?' + querystring.stringify(req.query)); // redirect to the invoice page with the query entered in the form
-  } else {    // if either hasValidQuantities or hasPurchases is false
-    req.query["hasValidQuantities"] = hasValidQuantities; // request the query for hasValidQuantities
-    req.query["hasPurchases"] = hasPurchases; // request the query for hasPurchases
-    console.log(req.query); // log the query into the console
-    res.redirect('./form.html?' + querystring.stringify(req.query)); // redirect to the form again, keeping the query that they wrote
-  }
-
-
-});
-
 app.use(express.static('./public')); // create a static server using express from the public folder
 
 // Having the server listen on port 8080
 // From Assignment1_Design_Examples > Asssignment1_2file > store_server.js
 var listener = app.listen(8080, () => { console.log('server started listening on port ' + listener.address().port) });
-
-//Creating the isNonNegInt function, which checks to make sure the quantity is a positive integer 
-//From Lab 12 and 13
-function isNonNegInt(q, returnErrors = false) { // creating function with variable q, when returnErrors is false
-  errors = []; // assume no errors at first
-  if (q == '') q = 0; // handle blank inputs as if they are 0
-  if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-  if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-  if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
-  return returnErrors ? errors : (errors.length == 0); // return no errors if the errors length is 0
-}
-

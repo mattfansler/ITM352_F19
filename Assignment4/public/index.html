@@ -1,82 +1,48 @@
-<!-- J. Jerome: Welcome Page -->
-<!--https://www.w3schools.com/howto/howto_css_shake_image.asp-->
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
-    
-<style>
-        body {
-        text-align: center;
-        background-color: tan;
-        }       
-    </style>
+    <title>How Big is the Event?</title>
+    <link rel="stylesheet" href="main.css">
+
 </head>
-<style>
-img {
-    border: 1px solid #ddd;
-    /* Gray border */
-    border-radius: 4px;
-    /* Rounded border */
-    padding: 5px;
-    /* Some padding */
-    width: 800px;
-    height: 400px;
-  
-}
-
-/*Setting css for the body*/
-body {
-    background: url(./images/background.jpg);
-    /*Set background image to background.jpg from ./public/images folder*/
-    color:black;
-    
-}
-
-/* Add a hover effect (black shadow) */
-img:hover {
-    box-shadow: 0 0 5px 1px black;
-}
-
-/*Set font that is in <h1> and <h2> brackets to Open Sans*/
-h1, h2{
-    font-family:'Open Sans',sans-serif;
-}
-</style>
-
-<body>
+<header>
+    <ul>
+        <li><a href="./search1.html">Search</a></li>
+        <li><a href="./prospects.html">Cart</a></li>
+    </ul>      
     <h1>Are you ready to party?!</h1>
-    <a href="./performer_page.html">
-        <img src="./images/concert.jpg" ></a>
-    <h1>Enter the party here!</h1>
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-    img:hover {
-      animation: shake 0.5s;
-      animation-iteration-count: infinite;
-    }
+    <h2>Our mission is to provide you with all the items you need for whatever size event you're holding</h2>
+</header>
+<body>
     
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      10% { transform: translate(-1px, -2px) rotate(-1deg); }
-      20% { transform: translate(-3px, 0px) rotate(1deg); }
-      30% { transform: translate(3px, 2px) rotate(0deg); }
-      40% { transform: translate(1px, -1px) rotate(1deg); }
-      50% { transform: translate(-1px, 2px) rotate(-1deg); }
-      60% { transform: translate(-3px, 1px) rotate(0deg); }
-      70% { transform: translate(3px, 1px) rotate(-1deg); }
-      80% { transform: translate(-1px, -1px) rotate(1deg); }
-      90% { transform: translate(1px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -2px) rotate(-1deg); }
-    }
-    </style>
-    </head>
+    <div>
+        <!-- Perfromer Search -->
+        <!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
+        <!--https://www.w3schools.com/howto/howto_css_login_form.aspx -->
+        <center><form name="search" method="POST" action="/search_service">
+            <br> <br>
+            <div class="container">
+                <label for="eventSize" required><b>How big are we talking? </b></label>
+                <br>
+                <br>
+                <!--Dropdown: https://www.w3schools.com/html/html_form_elements.asp -->
+                <select name="eventSize" id="eventSize" size="1">
+                        <option name="eventSize" value="select_eventSize">Size of Event</option>
+                        <option name="large" value="large">5,000+ Attendees</option>
+                        <option name="mid" value="mid">1,000-5,000 Attendees</option>
+                        <option name="small" value="small">Less than 1,000 Attendees</option>
+                </select>
+                <br>
+                <br>
+                <input type="submit" name="submit" value="search">
+            </div>
+        </form></center>
+    </div>
 
 </body>
 

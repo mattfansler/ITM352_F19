@@ -1,0 +1,82 @@
+
+/*Login CSS*/
+
+
+body{
+  background: url(./images/background.jpg); 
+  font-family:'Open Sans',sans-serif; 
+}
+/*Navigation Bar CSS*/
+/*https://www.w3schools.com/css/css_navbar.asp*/
+/*https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_sticky*/
+body {
+    font-size: 16px;
+    color: white;
+    align-content: center;
+  }
+  
+  ul {
+    text-align: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: transparent;
+    position: sticky;
+    top: 0;
+    color: white;
+  }
+  
+  li {
+    float: right;
+  }
+  
+  /* Add a gray right border to all list items, except the last item (last-child) */
+    li {
+    border-right: 1px solid #bbb;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  .active {
+    background-color: rgb(63, 90, 64);
+  }
+  /*Align Form to Center*/
+  form { 
+    margin: 0 auto; 
+    width:250px;
+    display: inline-block;
+    background-color: transparent;
+    color: white;  
+  }
+
+
+    .newuser{
+        width: 40%;
+        margin-left: 30%;    
+        margin-right: 30%;    
+
+    }
+
+ul>li>img{
+    height:50px;
+    width: 80px;
+}
+
+p { 
+    display:block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: -200px;
+    margin-inline-end: -200px;
+}

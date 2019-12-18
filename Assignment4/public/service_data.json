@@ -1,0 +1,128 @@
+[
+    {
+        "service_id": "0",
+        "name": "Team Dethrone", 
+        "price": 500.00,
+        "image": "./images/TeamDethrone.jpg", 
+        "description": "Team Dethrone is one of the most successful hip-hop groups of all time, having received multiple Grammy Awards. Between six studio albums and a greatest hits release, they have sold over 25 million records. Meanwhile, they have garnered widespread critical acclaim, with publications such as Rolling Stone and Pitchfork Media listing albums such as Gold and Capsule Corps among the best of their era.",
+        "eventSize": "Large Event",
+        "keyword": "large"
+    },
+    {
+        "service_id": "1",
+        "name": "Dynamic Duo", 
+        "price": 200.00, 
+        "image": "./images/TripleThreat.jpg", 
+        "description": "The duo is one of the most successful hip-hop groups of all time, having received multiple Grammy Awards. Between six studio albums and a greatest hits release, they have sold over 25 million records. Meanwhile, they have garnered widespread critical acclaim, with publications such as Rolling Stone and Pitchfork Media listing albums such as Gold and Capsule Corps among the best of their era." ,
+        "eventSize": "Small Event",
+        "keyword": "small"
+    },
+    {
+        "service_id": "2",
+        "name": "Isle of Poets", 
+        "price": 250.00,
+        "image": "./images/islandBand.jpg", 
+        "description": "Three soulful braddahs bringing you smooth R&B classics",
+        "eventSize": "Medium Event",
+        "keyword": "mid"
+    },
+    {
+        "service_id": "3",
+        "name": "Lonely Cowboy", 
+        "price": 200.00,
+        "image": "./images/cowboy.jpg", 
+        "description": "Hear that Nashville sound without leaving the islands!",
+        "eventSize": "Small Event",
+        "keyword": "small"
+    },
+    {
+        "service_id": "4",
+        "name": "Custodians(50)", 
+        "price": 500.00,
+        "image": "./images/JANITOR.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Hire an army of custodians.",
+        "eventSize": "Large Event",
+        "keyword": "large"
+    },
+
+    {
+        "service_id": "5",
+        "name": "Custodians(25)", 
+        "price": 300.00,
+        "image": "./images/JANITOR.jpg", 
+        "description": "Make sure you have a crew to support in clean up. 25 Custodians is recommended for mid sized venues",
+        "eventSize": "Medium Event",
+        "keyword": "mid"
+    },
+    
+    {
+        "service_id": "6",
+        "name": "Custodians(5)", 
+        "price": 50.00,
+        "image": "./images/JANITOR.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Small Event",
+        "keyword": "small"
+    },
+
+    {
+        "service_id": "7",
+        "name": "Bartender", 
+        "price": 20.00,
+        "image": "./images/bartender.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Small Event",
+        "keyword": "small"
+    },
+
+    {
+        "service_id": "8",
+        "name": "Bartender", 
+        "price": 50.00,
+        "image": "./images/bartender.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Medium Event",
+        "keyword": "mid"
+    },
+
+    {
+        "service_id": "9",
+        "name": "Bartender", 
+        "price": 150.00,
+        "image": "./images/bartender.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Large Event",
+        "keyword": "large"
+    },
+
+    {
+        "service_id": "10",
+        "name": "Security", 
+        "price": 100.00,
+        "image": "./images/security.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Small Event",
+        "keyword": "small"
+    },
+
+    {
+        "service_id": "11",
+        "name": "Security", 
+        "price": 200.00,
+        "image": "./images/security.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Medium Event",
+        "keyword": "mid"
+    },
+
+    {
+        "service_id": "12",
+        "name": "Security", 
+        "price": 300.00,
+        "image": "./images/security.jpg", 
+        "description": "Make sure you have a crew to support in clean up. Five Custodians is recommended for smaller venues",
+        "eventSize": "Large Event",
+        "keyword": "large"
+    }
+
+]

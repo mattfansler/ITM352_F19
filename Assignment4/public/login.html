@@ -1,5 +1,6 @@
-<!-- J. Jerome Login Page -->
-<!-- This webpage allows an existing user to login into their account and make a purchase. The username and password fields have validation to verify the new user. -->
+<!-- Login Page
+     J. Jerome
+ -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,23 +11,21 @@
         // From Assignment1_DesignExamples Asssignment1_2file products_display.html
         let params = (new URL(document.location)).searchParams; //params is a variable, 
 
-        // Creating function window.onload so when the page is loading, it checks to make sure there is a quantity written and that the quantities in textbox are valid
         //From Assignment1_Design_Examples > Asssignment1_2file > store_server.js 
 
-        window.onload = function () { // creating the function for window.onload
-            //Check if we're getting redirected from the server because of an error
+        window.onload = function () { //Why was the user redirected
+            
             if (params.has('LogError')) { //if params has invalid registration data
-
-                // Put the original data back into the textboxes
-                //put values of query string into username and password boxes
-                login['username'].value = params.get('username');
-                login['password'].value = params.get('password');
+                login['username'].value = params.get('username'); //put querystring values into username box
+                login['password'].value = params.get('password'); //put querystring values into password box
 
                 //do for the rest of register form
                 //get errors, indicate them on form
                 //if there is a login error, put up an alert
                 alert('Invalid Username or Password');
             }
+
+
         }
 
 </script>
@@ -34,33 +33,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="login-style.css">
+    <title>Please Sign In</title>
+    <link rel="stylesheet" href="login.css">
 </head>
+<header>
+    <ul>
+        <li><a href="./search1.html">Search</a></li>
+        <li><a href="./prospects.html">Cart</a></li>
+    </ul>   
+</header>
 <body>
+
 <div>
-<!-- //Creating the login form*/
-/*Help from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password*/ -->
-<!-- Help from https://www.w3schools.com/howto/howto_css_login_form.asp -->
-    <form name="login" method="POST">
-        Login Page <br> <br>
+    <br>
+    <br>
+<!--Creating the login form-->
+<!--https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_password--> 
+
+    <center><form name="login" method="POST">
+        Please Log In Here: <br> <br>
         <div class="container">
                 <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" id="username" name="name" required><br>
+                <input type="text" placeholder="Enter Username" id="username" name="username" required><br>
                 <label for="password"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password" onkeyup="" required><br>
         <br>
         <input type="submit" name="login" value="Login">
     </div>
-    </form>
+    </form></center>
     <script>
-   login.action="./login.html" + document.location.search;
+   login.action="./login.html" + document.location.search; //keep querystring on login page
     </script>
-
+<center>
+<br>
+<br>
+Register Today!
+<br>
     <br>
         <input type="button" name="newuser" value="New User" onclick="window.location='./register.html' + document.location.search;">
          
-</table>
+</center>
 </div>
 </body>
 </html>
